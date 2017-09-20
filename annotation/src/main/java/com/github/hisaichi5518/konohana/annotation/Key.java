@@ -7,8 +7,6 @@ import java.lang.annotation.Target;
 public @interface Key {
     String name() default "";
 
-    String defaultValue() default "";
-
     Class<?> prefsAdapter() default UseBuildInPrefsAdapter.class;
 
     class UseBuildInPrefsAdapter {}

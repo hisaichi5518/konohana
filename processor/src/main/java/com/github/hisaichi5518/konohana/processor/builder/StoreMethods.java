@@ -22,6 +22,7 @@ public class StoreMethods {
             specs.add(buildGetterSpec(keyDefinition));
             specs.add(buildSetterSpec(keyDefinition));
             specs.add(buildContainsSpec(keyDefinition));
+            specs.add(buildRemoverSpec(keyDefinition));
         });
 
         return specs;
@@ -52,6 +53,13 @@ public class StoreMethods {
                 .returns(boolean.class)
                 .addModifiers(Modifier.PUBLIC)
                 .addStatement("return prefs.contains($S)", keyDefinition.getPrefsKeyName())
+                .build();
+    }
+
+    private static MethodSpec buildRemoverSpec(KeyDefinition keyDefinition) {
+        return MethodSpec.methodBuilder(keyDefinition.getRemoverName())
+                .addModifiers(Modifier.PUBLIC)
+                .addStatement("prefs.edit().remove($S).apply()", keyDefinition.getPrefsKeyName())
                 .build();
     }
 

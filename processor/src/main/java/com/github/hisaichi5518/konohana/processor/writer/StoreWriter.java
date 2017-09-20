@@ -1,5 +1,7 @@
 package com.github.hisaichi5518.konohana.processor.writer;
 
+import android.support.annotation.NonNull;
+
 import com.github.hisaichi5518.konohana.processor.definition.StoreDefinition;
 import com.github.hisaichi5518.konohana.processor.types.AndroidTypes;
 import com.github.hisaichi5518.konohana.processor.types.AnnotationTypes;
@@ -15,7 +17,7 @@ import javax.lang.model.element.Modifier;
 
 public class StoreWriter {
 
-    public static void write(StoreDefinition storeDefinition) {
+    public static void write(@NonNull StoreDefinition storeDefinition) {
         try {
             JavaFile.builder(storeDefinition.getInterfaceName().packageName(), buildTypeSpec(storeDefinition))
                     .build()
@@ -25,7 +27,8 @@ public class StoreWriter {
         }
     }
 
-    private static TypeSpec buildTypeSpec(StoreDefinition storeDefinition) {
+    @NonNull
+    private static TypeSpec buildTypeSpec(@NonNull StoreDefinition storeDefinition) {
         return TypeSpec.classBuilder(storeDefinition.getStoreClassName())
                 .addSuperinterface(storeDefinition.getInterfaceName())
                 .addField(buildField())
@@ -33,13 +36,15 @@ public class StoreWriter {
                 .build();
     }
 
+    @NonNull
     private static FieldSpec buildField() {
         return FieldSpec.builder(AndroidTypes.SharedPreferences, "prefs")
                 .addModifiers(Modifier.PRIVATE, Modifier.FINAL)
                 .build();
     }
 
-    private static MethodSpec buildConstructor(StoreDefinition storeDefinition) {
+    @NonNull
+    private static MethodSpec buildConstructor(@NonNull StoreDefinition storeDefinition) {
         return MethodSpec.constructorBuilder()
                 .addParameter(ParameterSpec.builder(AndroidTypes.Context, "context").addAnnotation(AnnotationTypes.NonNull).build())
                 .addStatement("this.prefs = context.getSharedPreferences($S, $L)", storeDefinition.getPrefsFileName(), storeDefinition.getPrefsMode())

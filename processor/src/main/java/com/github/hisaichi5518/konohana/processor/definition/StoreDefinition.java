@@ -1,5 +1,7 @@
 package com.github.hisaichi5518.konohana.processor.definition;
 
+import android.support.annotation.NonNull;
+
 import com.github.hisaichi5518.konohana.annotation.Store;
 import com.github.hisaichi5518.konohana.processor.context.ProcessingContext;
 import com.github.hisaichi5518.konohana.processor.exception.ProcessingException;
@@ -20,14 +22,14 @@ public class StoreDefinition {
     private final ClassName storeClassName;
     private final Store store;
 
-    public static Stream<StoreDefinition> createStream(ProcessingContext context) {
+    public static Stream<StoreDefinition> createStream(@NonNull ProcessingContext context) {
         return context.roundEnvironment.getElementsAnnotatedWith(Store.class)
                 .stream()
                 .filter(element -> element.getKind() == ElementKind.INTERFACE)
                 .map(element -> new StoreDefinition(context, (TypeElement) element));
     }
 
-    private StoreDefinition(ProcessingContext context, TypeElement element) {
+    private StoreDefinition(@NonNull ProcessingContext context, @NonNull TypeElement element) {
         this.context = context;
         this.element = element;
 
@@ -37,14 +39,17 @@ public class StoreDefinition {
         store = element.getAnnotation(Store.class);
     }
 
+    @NonNull
     public ClassName getStoreClassName() {
         return storeClassName;
     }
 
+    @NonNull
     public ClassName getInterfaceName() {
         return interfaceName;
     }
 
+    @NonNull
     public String getPrefsFileName() {
         if (store.name().isEmpty()) {
             return element.getSimpleName().toString();
@@ -62,10 +67,12 @@ public class StoreDefinition {
     }
 
 
+    @NonNull
     public Filer getFiler() {
         return context.processingEnvironment.getFiler();
     }
 
+    @NonNull
     public ProcessingException newProcessingException(Throwable e) {
         return new ProcessingException(e, element);
     }

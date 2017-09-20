@@ -5,7 +5,6 @@ import com.github.hisaichi5518.konohana.processor.definition.StoreDefinition;
 import com.github.hisaichi5518.konohana.processor.types.AndroidTypes;
 import com.github.hisaichi5518.konohana.processor.types.AnnotationTypes;
 import com.github.hisaichi5518.konohana.processor.types.JavaTypes;
-import com.github.hisaichi5518.konohana.processor.types.KonohanaTypes;
 import com.github.hisaichi5518.konohana.processor.types.RxJavaTypes;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.ParameterSpec;
@@ -48,7 +47,7 @@ public class StoreMethods {
                 .addModifiers(Modifier.PUBLIC)
                 .addAnnotation(AnnotationTypes.NonNull)
                 .addStatement("return $T.get(prefs, $S, $T.$L)",
-                        /* TODO */ KonohanaTypes.StringPrefsAdapter, keyDefinition.getPrefsKeyName(), storeDefinition.getInterfaceName(), keyDefinition.getFieldName())
+                        keyDefinition.getPrefsAdapter(), keyDefinition.getPrefsKeyName(), storeDefinition.getInterfaceName(), keyDefinition.getFieldName())
                 .build();
     }
 
@@ -59,7 +58,7 @@ public class StoreMethods {
                 .addAnnotation(AnnotationTypes.NonNull)
                 .addParameter(ParameterSpec.builder(keyDefinition.getFieldTypeName(), "defaultValue").addAnnotation(AnnotationTypes.NonNull).build())
                 .addStatement("return $T.get(prefs, $S, defaultValue)",
-                        /* TODO */ KonohanaTypes.StringPrefsAdapter, keyDefinition.getPrefsKeyName())
+                        keyDefinition.getPrefsAdapter(), keyDefinition.getPrefsKeyName())
                 .build();
     }
 
@@ -68,7 +67,7 @@ public class StoreMethods {
                 .addModifiers(Modifier.PUBLIC)
                 .addParameter(ParameterSpec.builder(keyDefinition.getFieldTypeName(), "value").addAnnotation(AnnotationTypes.NonNull).build())
                 .addStatement("$T.set(prefs, $S, value)",
-                        /* TODO */ KonohanaTypes.StringPrefsAdapter, keyDefinition.getPrefsKeyName())
+                        keyDefinition.getPrefsAdapter(), keyDefinition.getPrefsKeyName())
                 .build();
 
     }
@@ -92,9 +91,9 @@ public class StoreMethods {
         return MethodSpec.methodBuilder(keyDefinition.getAsObservableName())
                 .addModifiers(Modifier.PUBLIC)
                 .returns(RxJavaTypes.getObservable(keyDefinition.getBoxedFieldType()))
-                .beginControlFlow("return changes.filter(new $T<$T>()", RxJavaTypes.Predicate, keyDefinition.getBoxedFieldType())
+                .beginControlFlow("return changes.filter(new $T<String>()", RxJavaTypes.Predicate)
                 .addCode("@$T\n", AnnotationTypes.Override)
-                .beginControlFlow("public boolean test($T v) throws Exception", keyDefinition.getBoxedFieldType())
+                .beginControlFlow("public boolean test(String v) throws Exception")
                 .addStatement("return $T.equals(v, $S)", AndroidTypes.TextUtils, keyDefinition.getPrefsKeyName())
                 .endControlFlow()
                 .endControlFlow()

@@ -1,12 +1,15 @@
 package com.github.hisaichi5518.konohana.processor;
 
 import com.github.hisaichi5518.konohana.processor.context.ProcessingContext;
+import com.github.hisaichi5518.konohana.processor.definition.KonohanaDefinition;
 import com.github.hisaichi5518.konohana.processor.definition.StoreDefinition;
 import com.github.hisaichi5518.konohana.processor.exception.ProcessingException;
+import com.github.hisaichi5518.konohana.processor.writer.KonohanaWriter;
 import com.github.hisaichi5518.konohana.processor.writer.StoreWriter;
 import com.google.auto.service.AutoService;
 
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.Processor;
@@ -26,6 +29,8 @@ public class KonohanaProcessor extends AbstractProcessor {
 
         try {
             StoreDefinition.createStream(context).forEach(StoreWriter::write);
+
+            KonohanaWriter.write(new KonohanaDefinition(context, StoreDefinition.createStream(context).collect(Collectors.toList())));
         } catch (ProcessingException e) {
             context.error(e.getMessage(), e.getElement());
         }

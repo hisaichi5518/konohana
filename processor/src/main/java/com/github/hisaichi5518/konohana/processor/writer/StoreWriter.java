@@ -12,7 +12,6 @@ import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.ParameterSpec;
-import com.squareup.javapoet.ParameterizedTypeName;
 import com.squareup.javapoet.TypeSpec;
 
 import java.io.IOException;
@@ -52,7 +51,7 @@ public class StoreWriter {
 
     @NonNull
     private static FieldSpec buildKeyChangesField() {
-        return FieldSpec.builder(ParameterizedTypeName.get(RxJavaTypes.Observable, JavaTypes.String), "keyChanges")
+        return FieldSpec.builder(RxJavaTypes.getObservable(JavaTypes.String), "changes")
                 .addModifiers(Modifier.PRIVATE, Modifier.FINAL)
                 .addAnnotation(AnnotationTypes.NonNull)
                 .build();
@@ -63,7 +62,7 @@ public class StoreWriter {
         return MethodSpec.constructorBuilder()
                 .addParameter(ParameterSpec.builder(AndroidTypes.Context, "context").addAnnotation(AnnotationTypes.NonNull).build())
                 .addStatement("this.prefs = context.getSharedPreferences($S, $L)", storeDefinition.getPrefsFileName(), storeDefinition.getPrefsMode())
-                .addStatement("this.keyChanges = keyChanges()")
+                .addStatement("this.changes = changes()")
                 .build();
     }
 }

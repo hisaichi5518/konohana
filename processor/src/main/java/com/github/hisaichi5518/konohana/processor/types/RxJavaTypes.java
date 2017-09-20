@@ -1,6 +1,7 @@
 package com.github.hisaichi5518.konohana.processor.types;
 
 import com.squareup.javapoet.ClassName;
+import com.squareup.javapoet.ParameterizedTypeName;
 
 public class RxJavaTypes {
 
@@ -13,4 +14,8 @@ public class RxJavaTypes {
     public static final ClassName ObservableOnSubscribe = ClassName.get(PACKAGE, "ObservableOnSubscribe");
 
     public static final ClassName Cancellable = ClassName.get(PACKAGE + ".functions", "Cancellable");
+
+    public static ParameterizedTypeName getObservable(ClassName className) {
+        return ParameterizedTypeName.get(Observable, className);
+    }
 }

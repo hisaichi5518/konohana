@@ -9,7 +9,6 @@ import com.github.hisaichi5518.konohana.processor.types.KonohanaTypes;
 import com.github.hisaichi5518.konohana.processor.types.RxJavaTypes;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.ParameterSpec;
-import com.squareup.javapoet.ParameterizedTypeName;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +28,7 @@ public class StoreMethods {
             specs.add(buildRemoverSpec(keyDefinition));
         });
 
-        specs.add(buildKeyChangesSpec());
+        specs.add(buildChangesSpec());
 
         return specs;
     }
@@ -41,11 +40,11 @@ public class StoreMethods {
                 .build();
     }
 
-    private static MethodSpec buildKeyChangesSpec() {
-        return MethodSpec.methodBuilder("keyChanges")
+    private static MethodSpec buildChangesSpec() {
+        return MethodSpec.methodBuilder("changes")
                 .addModifiers(Modifier.PRIVATE)
                 .addAnnotation(AnnotationTypes.NonNull)
-                .returns(ParameterizedTypeName.get(RxJavaTypes.Observable, JavaTypes.String))
+                .returns(RxJavaTypes.getObservable(JavaTypes.String))
                 .beginControlFlow("return $T.create(new $T<$T>()", RxJavaTypes.Observable, RxJavaTypes.ObservableOnSubscribe, JavaTypes.String)
                 .addCode("@$T\n", AnnotationTypes.Override)
                 .beginControlFlow("public void subscribe(final $T<$T> emitter) throws $T", RxJavaTypes.ObservableEmitter, JavaTypes.String, Exception.class)

@@ -40,32 +40,6 @@ public class StoreMethods {
                 .build();
     }
 
-    private static MethodSpec buildChangesSpec() {
-        return MethodSpec.methodBuilder("changes")
-                .addModifiers(Modifier.PRIVATE)
-                .addAnnotation(AnnotationTypes.NonNull)
-                .returns(RxJavaTypes.getObservable(JavaTypes.String))
-                .beginControlFlow("return $T.create(new $T<$T>()", RxJavaTypes.Observable, RxJavaTypes.ObservableOnSubscribe, JavaTypes.String)
-                .addCode("@$T\n", AnnotationTypes.Override)
-                .beginControlFlow("public void subscribe(final $T<$T> emitter) throws $T", RxJavaTypes.ObservableEmitter, JavaTypes.String, Exception.class)
-                .beginControlFlow("final $T listener = new $T()", AndroidTypes.OnSharedPreferenceChangeListener, AndroidTypes.OnSharedPreferenceChangeListener)
-                .addCode("@$T\n", AnnotationTypes.Override)
-                .beginControlFlow("public void onSharedPreferenceChanged($T preferences, $T key)", AndroidTypes.SharedPreferences, JavaTypes.String)
-                .addStatement("emitter.onNext(key)")
-                .endControlFlow()
-                .endControlFlow("")
-                .beginControlFlow("emitter.setCancellable(new $T()", RxJavaTypes.Cancellable)
-                .addCode("@$T\n", AnnotationTypes.Override)
-                .beginControlFlow("public void cancel() throws $T", JavaTypes.Exception)
-                .addStatement("prefs.unregisterOnSharedPreferenceChangeListener(listener)")
-                .endControlFlow()
-                .endControlFlow(")")
-                .addStatement("prefs.registerOnSharedPreferenceChangeListener(listener)")
-                .endControlFlow()
-                .endControlFlow(")")
-                .build();
-    }
-
     private static MethodSpec buildGetterSpec(StoreDefinition storeDefinition, KeyDefinition keyDefinition) {
         return MethodSpec.methodBuilder(keyDefinition.getGetterName())
                 .returns(keyDefinition.getFieldTypeName())
@@ -98,6 +72,32 @@ public class StoreMethods {
         return MethodSpec.methodBuilder(keyDefinition.getRemoverName())
                 .addModifiers(Modifier.PUBLIC)
                 .addStatement("prefs.edit().remove($S).apply()", keyDefinition.getPrefsKeyName())
+                .build();
+    }
+
+    private static MethodSpec buildChangesSpec() {
+        return MethodSpec.methodBuilder("changes")
+                .addModifiers(Modifier.PRIVATE)
+                .addAnnotation(AnnotationTypes.NonNull)
+                .returns(RxJavaTypes.getObservable(JavaTypes.String))
+                .beginControlFlow("return $T.create(new $T<$T>()", RxJavaTypes.Observable, RxJavaTypes.ObservableOnSubscribe, JavaTypes.String)
+                .addCode("@$T\n", AnnotationTypes.Override)
+                .beginControlFlow("public void subscribe(final $T<$T> emitter) throws $T", RxJavaTypes.ObservableEmitter, JavaTypes.String, Exception.class)
+                .beginControlFlow("final $T listener = new $T()", AndroidTypes.OnSharedPreferenceChangeListener, AndroidTypes.OnSharedPreferenceChangeListener)
+                .addCode("@$T\n", AnnotationTypes.Override)
+                .beginControlFlow("public void onSharedPreferenceChanged($T preferences, $T key)", AndroidTypes.SharedPreferences, JavaTypes.String)
+                .addStatement("emitter.onNext(key)")
+                .endControlFlow()
+                .endControlFlow("")
+                .beginControlFlow("emitter.setCancellable(new $T()", RxJavaTypes.Cancellable)
+                .addCode("@$T\n", AnnotationTypes.Override)
+                .beginControlFlow("public void cancel() throws $T", JavaTypes.Exception)
+                .addStatement("prefs.unregisterOnSharedPreferenceChangeListener(listener)")
+                .endControlFlow()
+                .endControlFlow(")")
+                .addStatement("prefs.registerOnSharedPreferenceChangeListener(listener)")
+                .endControlFlow()
+                .endControlFlow(")")
                 .build();
     }
 }

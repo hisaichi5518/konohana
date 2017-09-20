@@ -23,6 +23,7 @@ public class StoreMethods {
 
         storeDefinition.keyDefinitionStream().forEach(keyDefinition -> {
             specs.add(buildGetterSpec(storeDefinition, keyDefinition));
+            specs.add(buildGetterWithParameterSpec(keyDefinition));
             specs.add(buildSetterSpec(keyDefinition));
             specs.add(buildContainsSpec(keyDefinition));
             specs.add(buildRemoverSpec(keyDefinition));
@@ -48,6 +49,17 @@ public class StoreMethods {
                 .addAnnotation(AnnotationTypes.NonNull)
                 .addStatement("return $T.get(prefs, $S, $T.$L)",
                         /* TODO */ KonohanaTypes.StringPrefsAdapter, keyDefinition.getPrefsKeyName(), storeDefinition.getInterfaceName(), keyDefinition.getFieldName())
+                .build();
+    }
+
+    private static MethodSpec buildGetterWithParameterSpec(KeyDefinition keyDefinition) {
+        return MethodSpec.methodBuilder(keyDefinition.getGetterName())
+                .returns(keyDefinition.getFieldTypeName())
+                .addModifiers(Modifier.PUBLIC)
+                .addAnnotation(AnnotationTypes.NonNull)
+                .addParameter(ParameterSpec.builder(keyDefinition.getFieldTypeName(), "defaultValue").addAnnotation(AnnotationTypes.NonNull).build())
+                .addStatement("return $T.get(prefs, $S, defaultValue)",
+                        /* TODO */ KonohanaTypes.StringPrefsAdapter, keyDefinition.getPrefsKeyName())
                 .build();
     }
 

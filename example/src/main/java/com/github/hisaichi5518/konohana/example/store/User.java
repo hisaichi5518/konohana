@@ -7,4 +7,11 @@ import com.github.hisaichi5518.konohana.annotation.Store;
 interface User {
     @Key
     String name = "default name";
+
+    @Key
+    Type type = Type.none;
+
+    enum Type {
+        none
+    }
 }

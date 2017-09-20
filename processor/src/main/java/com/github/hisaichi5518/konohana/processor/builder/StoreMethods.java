@@ -12,11 +12,15 @@ public class StoreMethods {
     public static List<MethodSpec> build(StoreDefinition storeDefinition) {
         List<MethodSpec> specs = new ArrayList<>();
 
-        specs.add(MethodSpec.methodBuilder("removeAll")
-                .addModifiers(Modifier.PUBLIC)
-                .addStatement("prefs.edit().clear().apply()")
-                .build());
+        specs.add(buildRemoveAllMethod());
 
         return specs;
+    }
+
+    private static MethodSpec buildRemoveAllMethod() {
+        return MethodSpec.methodBuilder("removeAll")
+                .addModifiers(Modifier.PUBLIC)
+                .addStatement("prefs.edit().clear().apply()")
+                .build();
     }
 }

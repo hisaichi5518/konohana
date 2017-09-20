@@ -34,6 +34,7 @@ public class StoreWriter {
     private TypeSpec buildTypeSpec() {
         return TypeSpec.classBuilder(storeDefinition.getStoreClassName())
                 .addSuperinterface(storeDefinition.getInterfaceName())
+                .addModifiers(Modifier.PUBLIC)
                 .addField(buildPrefsField())
                 .addField(buildKeyChangesField())
                 .addMethod(buildConstructor())
@@ -60,6 +61,7 @@ public class StoreWriter {
     @NonNull
     private MethodSpec buildConstructor() {
         return MethodSpec.constructorBuilder()
+                .addModifiers(Modifier.PUBLIC)
                 .addParameter(ParameterSpec.builder(AndroidTypes.Context, "context").addAnnotation(AnnotationTypes.NonNull).build())
                 .addStatement("this.prefs = context.getSharedPreferences($S, $L)", storeDefinition.getPrefsFileName(), storeDefinition.getPrefsMode())
                 .addStatement("this.changes = changes()")

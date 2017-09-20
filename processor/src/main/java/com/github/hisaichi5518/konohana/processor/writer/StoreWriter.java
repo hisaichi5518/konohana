@@ -6,10 +6,13 @@ import com.github.hisaichi5518.konohana.processor.builder.StoreMethods;
 import com.github.hisaichi5518.konohana.processor.definition.StoreDefinition;
 import com.github.hisaichi5518.konohana.processor.types.AndroidTypes;
 import com.github.hisaichi5518.konohana.processor.types.AnnotationTypes;
+import com.github.hisaichi5518.konohana.processor.types.JavaTypes;
+import com.github.hisaichi5518.konohana.processor.types.RxJavaTypes;
 import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.ParameterSpec;
+import com.squareup.javapoet.ParameterizedTypeName;
 import com.squareup.javapoet.TypeSpec;
 
 import java.io.IOException;
@@ -32,15 +35,24 @@ public class StoreWriter {
     private static TypeSpec buildTypeSpec(@NonNull StoreDefinition storeDefinition) {
         return TypeSpec.classBuilder(storeDefinition.getStoreClassName())
                 .addSuperinterface(storeDefinition.getInterfaceName())
-                .addField(buildField())
+                .addField(buildPrefsField())
+                .addField(buildKeyChangesField())
                 .addMethod(buildConstructor(storeDefinition))
                 .addMethods(StoreMethods.build(storeDefinition))
                 .build();
     }
 
     @NonNull
-    private static FieldSpec buildField() {
+    private static FieldSpec buildPrefsField() {
         return FieldSpec.builder(AndroidTypes.SharedPreferences, "prefs")
+                .addModifiers(Modifier.PRIVATE, Modifier.FINAL)
+                .addAnnotation(AnnotationTypes.NonNull)
+                .build();
+    }
+
+    @NonNull
+    private static FieldSpec buildKeyChangesField() {
+        return FieldSpec.builder(ParameterizedTypeName.get(RxJavaTypes.Observable, JavaTypes.String), "keyChanges")
                 .addModifiers(Modifier.PRIVATE, Modifier.FINAL)
                 .addAnnotation(AnnotationTypes.NonNull)
                 .build();
@@ -51,6 +63,7 @@ public class StoreWriter {
         return MethodSpec.constructorBuilder()
                 .addParameter(ParameterSpec.builder(AndroidTypes.Context, "context").addAnnotation(AnnotationTypes.NonNull).build())
                 .addStatement("this.prefs = context.getSharedPreferences($S, $L)", storeDefinition.getPrefsFileName(), storeDefinition.getPrefsMode())
+                .addStatement("this.keyChanges = keyChanges()")
                 .build();
     }
 }

@@ -64,4 +64,8 @@ public class KeyDefinition implements Contextable {
     public String getSetterName() {
         return "set" + capitalizedName;
     }
+
+    public String getContainsName() {
+        return "has" + capitalizedName;
+    }
 }

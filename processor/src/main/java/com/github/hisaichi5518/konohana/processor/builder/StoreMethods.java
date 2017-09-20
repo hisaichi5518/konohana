@@ -21,6 +21,7 @@ public class StoreMethods {
         storeDefinition.keyDefinitionStream().forEach(keyDefinition -> {
             specs.add(buildGetterSpec(keyDefinition));
             specs.add(buildSetterSpec(keyDefinition));
+            specs.add(buildContainsSpec(keyDefinition));
         });
 
         return specs;
@@ -44,6 +45,14 @@ public class StoreMethods {
                         /* TODO */ KonohanaTypes.StringPrefsAdapter, keyDefinition.getPrefsKeyName())
                 .build();
 
+    }
+
+    private static MethodSpec buildContainsSpec(KeyDefinition keyDefinition) {
+        return MethodSpec.methodBuilder(keyDefinition.getContainsName())
+                .returns(boolean.class)
+                .addModifiers(Modifier.PUBLIC)
+                .addStatement("return prefs.contains($S)", keyDefinition.getPrefsKeyName())
+                .build();
     }
 
     private static MethodSpec buildRemoveAllMethod() {

@@ -77,7 +77,7 @@ public class KeyDefinition implements Contextable {
         return "remove" + capitalizedName;
     }
 
-    public String getChangesName() {
-        return getFieldName() + "Changes";
+    public String getAsObservableName() {
+        return getFieldName() + "AsObservable";
     }
 }

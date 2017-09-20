@@ -2,7 +2,10 @@ package com.github.hisaichi5518.konohana.processor.writer;
 
 import com.github.hisaichi5518.konohana.processor.definition.StoreDefinition;
 import com.github.hisaichi5518.konohana.processor.types.AndroidTypes;
+import com.github.hisaichi5518.konohana.processor.types.AnnotationTypes;
 import com.squareup.javapoet.FieldSpec;
+import com.squareup.javapoet.MethodSpec;
+import com.squareup.javapoet.ParameterSpec;
 import com.squareup.javapoet.TypeSpec;
 
 import java.util.Collections;
@@ -17,6 +20,7 @@ public class StoreWriter {
         TypeSpec typeSpec = TypeSpec.classBuilder(storeDefinition.getStoreClassName())
                 .addSuperinterface(storeDefinition.getInterfaceName())
                 .addFields(buildFields(storeDefinition))
+                .addMethods(buildConstructors(storeDefinition))
                 .build();
     }
 
@@ -29,5 +33,16 @@ public class StoreWriter {
 
         return specs;
 
+    }
+
+    private static List<MethodSpec> buildConstructors(StoreDefinition storeDefinition) {
+        List<MethodSpec> specs = Collections.emptyList();
+
+        specs.add(MethodSpec.constructorBuilder()
+                .addParameter(ParameterSpec.builder(AndroidTypes.Context, "context").addAnnotation(AnnotationTypes.NonNull).build())
+                .addStatement("this.prefs = context.getSharedPreferences($S, $L)", storeDefinition.getPrefsFileName(), storeDefinition.getPrefsMode())
+                .build());
+
+        return specs;
     }
 }

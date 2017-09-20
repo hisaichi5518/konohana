@@ -20,29 +20,29 @@ import javax.lang.model.element.Modifier;
 
 public class StoreWriter {
 
+    private final StoreDefinition storeDefinition;
+
+    private StoreWriter(StoreDefinition storeDefinition) {
+        this.storeDefinition = storeDefinition;
+    }
+
     public static void write(@NonNull StoreDefinition storeDefinition) {
-        try {
-            JavaFile.builder(storeDefinition.getInterfaceName().packageName(), buildTypeSpec(storeDefinition))
-                    .build()
-                    .writeTo(storeDefinition.getFiler());
-        } catch (IOException e) {
-            throw storeDefinition.newProcessingException(e);
-        }
+        new StoreWriter(storeDefinition).write();
     }
 
     @NonNull
-    private static TypeSpec buildTypeSpec(@NonNull StoreDefinition storeDefinition) {
+    private TypeSpec buildTypeSpec() {
         return TypeSpec.classBuilder(storeDefinition.getStoreClassName())
                 .addSuperinterface(storeDefinition.getInterfaceName())
                 .addField(buildPrefsField())
                 .addField(buildKeyChangesField())
-                .addMethod(buildConstructor(storeDefinition))
+                .addMethod(buildConstructor())
                 .addMethods(StoreMethods.build(storeDefinition))
                 .build();
     }
 
     @NonNull
-    private static FieldSpec buildPrefsField() {
+    private FieldSpec buildPrefsField() {
         return FieldSpec.builder(AndroidTypes.SharedPreferences, "prefs")
                 .addModifiers(Modifier.PRIVATE, Modifier.FINAL)
                 .addAnnotation(AnnotationTypes.NonNull)
@@ -50,7 +50,7 @@ public class StoreWriter {
     }
 
     @NonNull
-    private static FieldSpec buildKeyChangesField() {
+    private FieldSpec buildKeyChangesField() {
         return FieldSpec.builder(RxJavaTypes.getObservable(JavaTypes.String), "changes")
                 .addModifiers(Modifier.PRIVATE, Modifier.FINAL)
                 .addAnnotation(AnnotationTypes.NonNull)
@@ -58,11 +58,21 @@ public class StoreWriter {
     }
 
     @NonNull
-    private static MethodSpec buildConstructor(@NonNull StoreDefinition storeDefinition) {
+    private MethodSpec buildConstructor() {
         return MethodSpec.constructorBuilder()
                 .addParameter(ParameterSpec.builder(AndroidTypes.Context, "context").addAnnotation(AnnotationTypes.NonNull).build())
                 .addStatement("this.prefs = context.getSharedPreferences($S, $L)", storeDefinition.getPrefsFileName(), storeDefinition.getPrefsMode())
                 .addStatement("this.changes = changes()")
                 .build();
+    }
+
+    private void write() {
+        try {
+            JavaFile.builder(storeDefinition.getInterfaceName().packageName(), buildTypeSpec())
+                    .build()
+                    .writeTo(storeDefinition.getFiler());
+        } catch (IOException e) {
+            throw storeDefinition.newProcessingException(e);
+        }
     }
 }

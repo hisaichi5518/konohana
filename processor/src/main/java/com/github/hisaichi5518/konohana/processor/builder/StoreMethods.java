@@ -26,6 +26,7 @@ public class StoreMethods {
             specs.add(buildSetterSpec(keyDefinition));
             specs.add(buildContainsSpec(keyDefinition));
             specs.add(buildRemoverSpec(keyDefinition));
+            specs.add(buildKeyChangesSpec(keyDefinition));
         });
 
         specs.add(buildChangesSpec());
@@ -72,6 +73,25 @@ public class StoreMethods {
         return MethodSpec.methodBuilder(keyDefinition.getRemoverName())
                 .addModifiers(Modifier.PUBLIC)
                 .addStatement("prefs.edit().remove($S).apply()", keyDefinition.getPrefsKeyName())
+                .build();
+    }
+
+    private static MethodSpec buildKeyChangesSpec(KeyDefinition keyDefinition) {
+        return MethodSpec.methodBuilder(keyDefinition.getChangesName())
+                .addModifiers(Modifier.PUBLIC)
+                .returns(RxJavaTypes.getObservable(keyDefinition.getBoxedFieldType()))
+                .beginControlFlow("return changes.filter(new $T<$T>()", RxJavaTypes.Predicate, keyDefinition.getBoxedFieldType())
+                .addCode("@$T\n", AnnotationTypes.Override)
+                .beginControlFlow("public boolean test($T v) throws Exception", keyDefinition.getBoxedFieldType())
+                .addStatement("return $T.equals(v, $S)", AndroidTypes.TextUtils, keyDefinition.getPrefsKeyName())
+                .endControlFlow()
+                .endControlFlow()
+                .beginControlFlow(").map(new $T<String, $T>()", RxJavaTypes.Function, keyDefinition.getBoxedFieldType())
+                .addCode("@$T\n", AnnotationTypes.Override)
+                .beginControlFlow("public $T apply(String s) throws Exception", keyDefinition.getBoxedFieldType())
+                .addStatement("return $L()", keyDefinition.getGetterName())
+                .endControlFlow()
+                .endControlFlow(")")
                 .build();
     }
 

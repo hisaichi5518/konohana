@@ -49,6 +49,10 @@ public class KeyDefinition implements Contextable {
         return fieldTypeName;
     }
 
+    public TypeName getBoxedFieldType() {
+        return getFieldTypeName().isBoxedPrimitive() ? getFieldTypeName().box() : getFieldTypeName();
+    }
+
     public String getPrefsKeyName() {
         if (key.name().isEmpty()) {
             return element.getSimpleName().toString();
@@ -71,5 +75,9 @@ public class KeyDefinition implements Contextable {
 
     public String getRemoverName() {
         return "remove" + capitalizedName;
+    }
+
+    public String getChangesName() {
+        return getFieldName() + "Changes";
     }
 }

@@ -7,6 +7,7 @@ import com.squareup.javapoet.ClassName;
 
 import java.util.stream.Stream;
 
+import javax.annotation.processing.Filer;
 import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.TypeElement;
 
@@ -58,5 +59,14 @@ public class StoreDefinition {
         }
 
         return store.mode();
+    }
+
+
+    public Filer getFiler() {
+        return context.processingEnvironment.getFiler();
+    }
+
+    public ProcessingException newProcessingException(Throwable e) {
+        return new ProcessingException(e, element);
     }
 }

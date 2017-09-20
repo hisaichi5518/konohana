@@ -4,11 +4,17 @@ import android.support.annotation.NonNull;
 
 import com.github.hisaichi5518.konohana.annotation.Key;
 import com.github.hisaichi5518.konohana.processor.context.ProcessingContext;
+import com.github.hisaichi5518.konohana.processor.exception.ProcessingException;
+import com.github.hisaichi5518.konohana.processor.model.PrefsAdapter;
+import com.github.hisaichi5518.konohana.processor.utils.Annotations;
 import com.github.hisaichi5518.konohana.processor.utils.Strings;
+import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.TypeName;
 
 import javax.lang.model.element.Element;
+import javax.lang.model.element.TypeElement;
 import javax.lang.model.element.VariableElement;
+import javax.lang.model.type.TypeMirror;
 
 
 public class KeyDefinition implements Contextable {
@@ -18,6 +24,7 @@ public class KeyDefinition implements Contextable {
     private final TypeName fieldTypeName;
     private final String capitalizedName;
     private final Key key;
+    private final TypeName prefsAdapter;
 
     KeyDefinition(@NonNull ProcessingContext context, @NonNull VariableElement element) {
         this.context = context;
@@ -27,6 +34,15 @@ public class KeyDefinition implements Contextable {
         capitalizedName = Strings.upperFirst(element.getSimpleName().toString());
 
         key = element.getAnnotation(Key.class);
+
+        prefsAdapter = PrefsAdapter.find(this);
+        if (prefsAdapter == null) {
+            // ex) Can not find available PrefsAdapter for admin field(type: Boolean) of User class
+            throw new ProcessingException(
+                    "Can not find available PrefsAdapter for "
+                            + element.getSimpleName() + " field(type: " + getFieldTypeName().toString() + ")"
+                            + " of " + element.getEnclosingElement().getSimpleName() + " class.", element);
+        }
     }
 
     @NonNull
@@ -51,6 +67,15 @@ public class KeyDefinition implements Contextable {
 
     public TypeName getBoxedFieldType() {
         return getFieldTypeName().isBoxedPrimitive() ? getFieldTypeName().box() : getFieldTypeName();
+    }
+
+    public TypeName getCustomPrefsAdapterType() {
+        TypeMirror typeMirror = Annotations.getValue(element, Key.class, "prefsAdapter");
+        if (typeMirror == null) {
+            throw new ProcessingException("prefsAdapter is null", element);
+        }
+
+        return ClassName.get(typeMirror);
     }
 
     public String getPrefsKeyName() {
@@ -79,5 +104,16 @@ public class KeyDefinition implements Contextable {
 
     public String getAsObservableName() {
         return getFieldName() + "AsObservable";
+    }
+
+    public boolean isEnum() {
+        TypeElement typeElement = (TypeElement) context.getTypes().asElement(element.asType());
+        TypeElement superClassElement = (TypeElement) context.getTypes().asElement(typeElement.getSuperclass());
+
+        return ClassName.get(superClassElement).equals(ClassName.get(Enum.class));
+    }
+
+    public TypeName getPrefsAdapter() {
+        return prefsAdapter;
     }
 }

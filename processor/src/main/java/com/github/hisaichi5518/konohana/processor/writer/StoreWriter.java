@@ -42,6 +42,7 @@ public class StoreWriter {
     private static FieldSpec buildField() {
         return FieldSpec.builder(AndroidTypes.SharedPreferences, "prefs")
                 .addModifiers(Modifier.PRIVATE, Modifier.FINAL)
+                .addAnnotation(AnnotationTypes.NonNull)
                 .build();
     }
 

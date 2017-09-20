@@ -1,6 +1,8 @@
 package com.github.hisaichi5518.konohana.processor;
 
 import com.github.hisaichi5518.konohana.processor.context.ProcessingContext;
+import com.github.hisaichi5518.konohana.processor.definition.StoreDefinition;
+import com.github.hisaichi5518.konohana.processor.writer.StoreWriter;
 import com.google.auto.service.AutoService;
 
 import java.util.Set;
@@ -20,6 +22,9 @@ public class KonohanaProcessor extends AbstractProcessor {
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
         ProcessingContext context = new ProcessingContext(processingEnv, roundEnv);
+
+        StoreDefinition.createStream(context).forEach(StoreWriter::write);
+
         return false;
     }
 }

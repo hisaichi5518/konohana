@@ -2,6 +2,7 @@ package com.github.hisaichi5518.konohana.processor.definition;
 
 import android.support.annotation.NonNull;
 
+import com.github.hisaichi5518.konohana.annotation.Key;
 import com.github.hisaichi5518.konohana.annotation.Store;
 import com.github.hisaichi5518.konohana.processor.context.ProcessingContext;
 import com.github.hisaichi5518.konohana.processor.exception.ProcessingException;
@@ -9,12 +10,13 @@ import com.squareup.javapoet.ClassName;
 
 import java.util.stream.Stream;
 
-import javax.annotation.processing.Filer;
+import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.TypeElement;
+import javax.lang.model.element.VariableElement;
 
 
-public class StoreDefinition {
+public class StoreDefinition implements Contextable {
 
     private final ProcessingContext context;
     private final TypeElement element;
@@ -37,6 +39,18 @@ public class StoreDefinition {
         storeClassName = ClassName.get(interfaceName.packageName(), interfaceName.simpleName() + "_Store");
 
         store = element.getAnnotation(Store.class);
+    }
+
+    @NonNull
+    @Override
+    public Element element() {
+        return element;
+    }
+
+    @NonNull
+    @Override
+    public ProcessingContext context() {
+        return context;
     }
 
     @NonNull
@@ -66,14 +80,11 @@ public class StoreDefinition {
         return store.mode();
     }
 
-
     @NonNull
-    public Filer getFiler() {
-        return context.processingEnvironment.getFiler();
-    }
-
-    @NonNull
-    public ProcessingException newProcessingException(Throwable e) {
-        return new ProcessingException(e, element);
+    public Stream<KeyDefinition> keyDefinitionStream() {
+        return element.getEnclosedElements()
+                .stream()
+                .filter(e -> e.getAnnotation(Key.class) != null)
+                .map(e -> new KeyDefinition(context, (VariableElement) e));
     }
 }

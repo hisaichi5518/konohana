@@ -8,8 +8,8 @@ import javax.lang.model.element.Element;
 import javax.tools.Diagnostic;
 
 public class ProcessingContext {
-    private final ProcessingEnvironment processingEnvironment;
-    private final RoundEnvironment roundEnvironment;
+    public final ProcessingEnvironment processingEnvironment;
+    public final RoundEnvironment roundEnvironment;
 
     public ProcessingContext(@NonNull ProcessingEnvironment processingEnvironment, @NonNull RoundEnvironment roundEnvironment) {
         this.processingEnvironment = processingEnvironment;

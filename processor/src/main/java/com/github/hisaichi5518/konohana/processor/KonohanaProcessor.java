@@ -2,6 +2,7 @@ package com.github.hisaichi5518.konohana.processor;
 
 import com.github.hisaichi5518.konohana.processor.context.ProcessingContext;
 import com.github.hisaichi5518.konohana.processor.definition.StoreDefinition;
+import com.github.hisaichi5518.konohana.processor.exception.ProcessingException;
 import com.github.hisaichi5518.konohana.processor.writer.StoreWriter;
 import com.google.auto.service.AutoService;
 
@@ -23,7 +24,11 @@ public class KonohanaProcessor extends AbstractProcessor {
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
         ProcessingContext context = new ProcessingContext(processingEnv, roundEnv);
 
-        StoreDefinition.createStream(context).forEach(StoreWriter::write);
+        try {
+            StoreDefinition.createStream(context).forEach(StoreWriter::write);
+        } catch (ProcessingException e) {
+            context.error(e.getMessage(), e.getElement());
+        }
 
         return false;
     }

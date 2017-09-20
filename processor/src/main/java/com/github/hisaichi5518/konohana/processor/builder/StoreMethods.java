@@ -5,6 +5,7 @@ import com.github.hisaichi5518.konohana.processor.definition.StoreDefinition;
 import com.github.hisaichi5518.konohana.processor.types.AnnotationTypes;
 import com.github.hisaichi5518.konohana.processor.types.KonohanaTypes;
 import com.squareup.javapoet.MethodSpec;
+import com.squareup.javapoet.ParameterSpec;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +20,7 @@ public class StoreMethods {
 
         storeDefinition.keyDefinitionStream().forEach(keyDefinition -> {
             specs.add(buildGetterSpec(keyDefinition));
+            specs.add(buildSetterSpec(keyDefinition));
         });
 
         return specs;
@@ -32,6 +34,16 @@ public class StoreMethods {
                 .addStatement("return $T.get(prefs, $S, $L)",
                         /* TODO */ KonohanaTypes.StringPrefsAdapter, keyDefinition.getPrefsKeyName(), keyDefinition.getFieldName())
                 .build();
+    }
+
+    private static MethodSpec buildSetterSpec(KeyDefinition keyDefinition) {
+        return MethodSpec.methodBuilder(keyDefinition.getSetterName())
+                .addModifiers(Modifier.PUBLIC)
+                .addParameter(ParameterSpec.builder(keyDefinition.getFieldTypeName(), "value").addAnnotation(AnnotationTypes.NonNull).build())
+                .addStatement("$T.set(prefs, $S, value)",
+                        /* TODO */ KonohanaTypes.StringPrefsAdapter, keyDefinition.getPrefsKeyName())
+                .build();
+
     }
 
     private static MethodSpec buildRemoveAllMethod() {

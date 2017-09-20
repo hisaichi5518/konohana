@@ -16,20 +16,21 @@ import javax.lang.model.element.Modifier;
 public class StoreWriter {
 
     public static void write(StoreDefinition storeDefinition) {
-
-        TypeSpec typeSpec = TypeSpec.classBuilder(storeDefinition.getStoreClassName())
-                .addSuperinterface(storeDefinition.getInterfaceName())
-                .addField(buildField())
-                .addMethod(buildConstructor(storeDefinition))
-                .build();
-
         try {
-            JavaFile.builder(storeDefinition.getInterfaceName().packageName(), typeSpec)
+            JavaFile.builder(storeDefinition.getInterfaceName().packageName(), buildTypeSpec(storeDefinition))
                     .build()
                     .writeTo(storeDefinition.getFiler());
         } catch (IOException e) {
             throw storeDefinition.newProcessingException(e);
         }
+    }
+
+    private static TypeSpec buildTypeSpec(StoreDefinition storeDefinition) {
+        return TypeSpec.classBuilder(storeDefinition.getStoreClassName())
+                .addSuperinterface(storeDefinition.getInterfaceName())
+                .addField(buildField())
+                .addMethod(buildConstructor(storeDefinition))
+                .build();
     }
 
     private static FieldSpec buildField() {

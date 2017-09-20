@@ -10,6 +10,11 @@ public class ProcessingException extends RuntimeException {
         this.element = element;
     }
 
+    public ProcessingException(Throwable e, Element element) {
+        super(e);
+        this.element = element;
+    }
+
     public Element getElement() {
         return element;
     }

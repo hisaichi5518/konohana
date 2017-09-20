@@ -16,7 +16,7 @@ public class StoreMethods {
     public static List<MethodSpec> build(StoreDefinition storeDefinition) {
         List<MethodSpec> specs = new ArrayList<>();
 
-        specs.add(buildRemoveAllMethod());
+        specs.add(buildRemoveAllSpec());
 
         storeDefinition.keyDefinitionStream().forEach(keyDefinition -> {
             specs.add(buildGetterSpec(keyDefinition));
@@ -63,7 +63,7 @@ public class StoreMethods {
                 .build();
     }
 
-    private static MethodSpec buildRemoveAllMethod() {
+    private static MethodSpec buildRemoveAllSpec() {
         return MethodSpec.methodBuilder("removeAll")
                 .addModifiers(Modifier.PUBLIC)
                 .addStatement("prefs.edit().clear().apply()")

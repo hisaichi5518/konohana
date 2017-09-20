@@ -2,6 +2,7 @@ package com.github.hisaichi5518.konohana.processor.writer;
 
 import android.support.annotation.NonNull;
 
+import com.github.hisaichi5518.konohana.processor.builder.StoreMethods;
 import com.github.hisaichi5518.konohana.processor.definition.StoreDefinition;
 import com.github.hisaichi5518.konohana.processor.types.AndroidTypes;
 import com.github.hisaichi5518.konohana.processor.types.AnnotationTypes;
@@ -33,6 +34,7 @@ public class StoreWriter {
                 .addSuperinterface(storeDefinition.getInterfaceName())
                 .addField(buildField())
                 .addMethod(buildConstructor(storeDefinition))
+                .addMethods(StoreMethods.build(storeDefinition))
                 .build();
     }
 

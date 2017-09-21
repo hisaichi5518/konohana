@@ -1,10 +1,10 @@
 # Konohana
 
-RxJava2 + SharedPreferences + SharedPreferences manager = Konohana
+SharedPreferences + RxJava2 + SharedPreferences manager = Konohana
 
 # Synopsis
 
-First, Define store interface annotated with @Store and @Key.
+First, Define store interface annotated with `@Store` and `@Key`.
 
 ```java
 package com.github.hisaichi5518.konohana.example.store;
@@ -24,22 +24,22 @@ Second, Run the `Build > Rebuild Project` to generate Konohana classes, and inst
 ```java
 Konohana konohana = new Konohana(context);
 
-// Create `name` sharedpreferences
+// Create `name` preference.
 konohana.storeOfUser().setName("hisaichi5518");
 
-// Read `name` sharedpreferences
+// Read `name` preference.
 konohana.storeOfUser().getName();
 
-// Update `name` sharedpreferences
+// Update `name` preference.
 konohana.storeOfUser().setName("new-hisaichi5518");
 
-// Delete `name` sharedpreferences
+// Delete `name` preference.
 konohana.storeOfUser().removeName();
 
-// sharedpreferences has `name` ?
+// preferences has `name` ?
 konohana.storeOfUser().hasName();
 
-// Observe changes to `name`.
+// Observe changes to `name` preference.
 konohana.storeOfUser().nameAsObservable().subscribe(name -> {
   // ...
 });

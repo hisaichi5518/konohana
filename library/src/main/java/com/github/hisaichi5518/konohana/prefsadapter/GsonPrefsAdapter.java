@@ -13,6 +13,7 @@ public class GsonPrefsAdapter {
         if (val == null) {
             return defaultValue;
         }
+
         return (T) GSON.fromJson(val, defaultValue.getClass());
     }
 

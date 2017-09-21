@@ -68,7 +68,7 @@ public class KeyDefinition implements Contextable {
     }
 
     public TypeName getBoxedFieldType() {
-        return getFieldTypeName().isBoxedPrimitive() ? getFieldTypeName().box() : getFieldTypeName();
+        return getFieldTypeName().isPrimitive() ? getFieldTypeName().box() : getFieldTypeName();
     }
 
     public TypeName getCustomPrefsAdapterType() {

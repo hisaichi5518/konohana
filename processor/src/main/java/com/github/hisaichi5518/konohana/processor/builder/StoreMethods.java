@@ -27,6 +27,7 @@ public class StoreMethods {
             specs.add(buildContainsSpec(keyDefinition));
             specs.add(buildRemoverSpec(keyDefinition));
             specs.add(buildKeyAsObservableSpec(keyDefinition));
+            specs.add(buildKeyAsObservableSpecWithParameter(keyDefinition));
         });
 
         specs.add(buildChangesSpec());
@@ -102,6 +103,27 @@ public class StoreMethods {
                 .addCode("@$T\n", AnnotationTypes.Override)
                 .beginControlFlow("public $T apply(String s) throws Exception", keyDefinition.getBoxedFieldType())
                 .addStatement("return $L()", keyDefinition.getGetterName())
+                .endControlFlow()
+                .endControlFlow(")")
+                .build();
+    }
+
+    private static MethodSpec buildKeyAsObservableSpecWithParameter(KeyDefinition keyDefinition) {
+        return MethodSpec.methodBuilder(keyDefinition.getAsObservableName())
+                .addModifiers(Modifier.PUBLIC)
+                .returns(RxJavaTypes.getObservable(keyDefinition.getBoxedFieldType()))
+                .addParameter(ParameterSpec.builder(keyDefinition.getFieldTypeName(), "defaultValue").addModifiers(Modifier.FINAL).addAnnotation(AnnotationTypes.NonNull).build())
+                .beginControlFlow("return changes.filter(new $T<String>()", RxJavaTypes.Predicate)
+                .addCode("@$T\n", AnnotationTypes.Override)
+                .beginControlFlow("public boolean test(String v) throws Exception")
+                .addStatement("return $T.equals(v, $S)", AndroidTypes.TextUtils, keyDefinition.getPrefsKeyName())
+                .endControlFlow()
+                .endControlFlow()
+                .addCode(").startWith($S)", "<dummy>") // // Dummy value to trigger initial load.
+                .beginControlFlow(".map(new $T<String, $T>()", RxJavaTypes.Function, keyDefinition.getBoxedFieldType())
+                .addCode("@$T\n", AnnotationTypes.Override)
+                .beginControlFlow("public $T apply(String s) throws Exception", keyDefinition.getBoxedFieldType())
+                .addStatement("return $L(defaultValue)", keyDefinition.getGetterName())
                 .endControlFlow()
                 .endControlFlow(")")
                 .build();

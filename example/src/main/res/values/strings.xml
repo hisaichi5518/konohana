@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">KonohanaExample</string>
+    <string name="change_name">Change name!</string>
 </resources>

@@ -19,6 +19,7 @@ public class ListPrefsAdapter {
             return defaultValue;
         }
 
+        // http://gfx.hatenablog.com/entry/2015/08/28/132304
         @SuppressWarnings("unchecked")
         Type type = $Gson$Types.newParameterizedTypeWithOwner(null, List.class, (Class<T>) types.getClass().getComponentType());
         return GSON.fromJson(val, type);

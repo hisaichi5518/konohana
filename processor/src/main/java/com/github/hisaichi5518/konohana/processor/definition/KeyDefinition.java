@@ -14,6 +14,7 @@ import com.squareup.javapoet.TypeName;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.element.VariableElement;
+import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
 
 
@@ -107,13 +108,20 @@ public class KeyDefinition implements Contextable {
     }
 
     public boolean isEnum() {
-        TypeElement typeElement = (TypeElement) context.getTypes().asElement(element.asType());
-        TypeElement superClassElement = (TypeElement) context.getTypes().asElement(typeElement.getSuperclass());
+        TypeElement typeElement = getFieldTypeElement();
+        if (typeElement.getSuperclass().getKind().equals(TypeKind.NONE)) {
+            return false;
+        }
 
+        TypeElement superClassElement = (TypeElement) context.getTypes().asElement(typeElement.getSuperclass());
         return ClassName.get(superClassElement).equals(ClassName.get(Enum.class));
     }
 
     public TypeName getPrefsAdapter() {
         return prefsAdapter;
+    }
+
+    private TypeElement getFieldTypeElement() {
+        return (TypeElement) context.getTypes().asElement(element.asType());
     }
 }

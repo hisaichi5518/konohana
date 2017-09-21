@@ -39,7 +39,7 @@ public class ListPrefsAdapterTest {
         assertThat(ListPrefsAdapter.get(prefs, "key", empty).get(0).name).isEqualTo("yuriko");
     }
 
-    static class User {
+    private static class User {
         String name;
     }
 }

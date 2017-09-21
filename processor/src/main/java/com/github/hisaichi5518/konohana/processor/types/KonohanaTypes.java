@@ -21,6 +21,8 @@ public class KonohanaTypes {
 
     public static final ClassName LongPrefsAdapter = ClassName.get(PREFS_ADAPTER_PACKAGE, "LongPrefsAdapter");
 
+    public static final ClassName SetPrefsAdapter = ClassName.get(PREFS_ADAPTER_PACKAGE, "SetPrefsAdapter");
+
     public static final ClassName StringPrefsAdapter = ClassName.get(PREFS_ADAPTER_PACKAGE, "StringPrefsAdapter");
 
     public static final ClassName StringSetPrefsAdapter = ClassName.get(PREFS_ADAPTER_PACKAGE, "StringSetPrefsAdapter");

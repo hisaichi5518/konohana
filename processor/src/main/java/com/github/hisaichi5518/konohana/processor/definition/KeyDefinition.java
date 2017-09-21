@@ -119,6 +119,11 @@ public class KeyDefinition implements Contextable {
         return ClassName.get(typeElement).equals(JavaTypes.List);
     }
 
+    public boolean isSet() {
+        TypeElement typeElement = getFieldTypeElement();
+        return ClassName.get(typeElement).equals(JavaTypes.Set);
+    }
+
     public TypeName getPrefsAdapter() {
         return prefsAdapter;
     }

@@ -43,6 +43,8 @@ public class PrefsAdapter {
                             return KonohanaTypes.EnumPrefsAdapter;
                         } else if (keyDefinition.isList()) {
                             return KonohanaTypes.ListPrefsAdapter;
+                        } else if (keyDefinition.isSet()) {
+                            return KonohanaTypes.SetPrefsAdapter;
                         } else {
                             return KonohanaTypes.GsonPrefsAdapter;
                         }

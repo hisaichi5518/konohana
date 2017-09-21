@@ -23,6 +23,8 @@ allprojects {
 
 ext {
     SUPPORT_LIBRARY_VERSION = "26.1.0"
+    RXJAVA2_VERSION = "2.1.3"
+    GSON_VERSION = "2.8.2"
 }
 
 task clean(type: Delete) {

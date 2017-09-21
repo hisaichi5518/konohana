@@ -3,6 +3,12 @@ apply plugin: 'java'
 targetCompatibility = JavaVersion.VERSION_1_8
 sourceCompatibility = JavaVersion.VERSION_1_8
 
+task copyTestResources(type: Copy) {
+    from "${projectDir}/src/test/resources"
+    into "${buildDir}/classes/test"
+}
+processTestResources.dependsOn copyTestResources
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile project(':annotation')

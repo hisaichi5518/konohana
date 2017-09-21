@@ -41,6 +41,8 @@ public class PrefsAdapter {
                     .orElseGet(() -> {
                         if (keyDefinition.isEnum()) {
                             return KonohanaTypes.EnumPrefsAdapter;
+                        } else if (keyDefinition.isList()) {
+                            return KonohanaTypes.ListPrefsAdapter;
                         } else {
                             return null;
                         }

@@ -13,6 +13,8 @@ public class KonohanaTypes {
 
     public static final ClassName FloatPrefsAdapter = ClassName.get(PREFS_ADAPTER_PACKAGE, "FloatPrefsAdapter");
 
+    public static final ClassName GsonPrefsAdapter = ClassName.get(PREFS_ADAPTER_PACKAGE, "GsonPrefsAdapter");
+
     public static final ClassName IntegerPrefsAdapter = ClassName.get(PREFS_ADAPTER_PACKAGE, "IntegerPrefsAdapter");
 
     public static final ClassName ListPrefsAdapter = ClassName.get(PREFS_ADAPTER_PACKAGE, "ListPrefsAdapter");

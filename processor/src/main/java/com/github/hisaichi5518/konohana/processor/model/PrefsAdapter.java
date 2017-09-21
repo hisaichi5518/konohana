@@ -44,7 +44,7 @@ public class PrefsAdapter {
                         } else if (keyDefinition.isList()) {
                             return KonohanaTypes.ListPrefsAdapter;
                         } else {
-                            return null;
+                            return KonohanaTypes.GsonPrefsAdapter;
                         }
                     });
         } else {

@@ -31,7 +31,7 @@ dependencies {
     compile "com.android.support:appcompat-v7:${SUPPORT_LIBRARY_VERSION}"
     compile "com.google.code.gson:gson:${GSON_VERSION}"
 
-    testCompile 'junit:junit:4.12'
+    testCompile "junit:junit:${JUNIT_VERSION}"
     testCompile "org.robolectric:robolectric:3.4.2"
     testCompile 'org.assertj:assertj-core:3.8.0'
 }

@@ -12,6 +12,10 @@ public class JavaTypes {
 
     public static final ClassName Set = ClassName.get(Set.class);
 
+    public static final ClassName Enum = ClassName.get(Enum.class);
+
+    public static final ClassName List = ClassName.get(java.util.List.class);
+
     public static ParameterizedTypeName getSet(ClassName className) {
         return ParameterizedTypeName.get(Set, className);
     }

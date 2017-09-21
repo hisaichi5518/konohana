@@ -7,14 +7,14 @@ import com.google.gson.Gson;
 import com.google.gson.internal.$Gson$Types;
 
 import java.lang.reflect.Type;
-import java.util.List;
+import java.util.Set;
 
-public class ListPrefsAdapter {
+public class SetPrefsAdapter {
     private static final Gson GSON = new Gson();
 
     @SafeVarargs
     // http://d.hatena.ne.jp/skirnir/20090224/1235483079
-    public static <T> List<T> get(SharedPreferences prefs, @NonNull String key, @NonNull List<T> defaultValue, T... types) {
+    public static <T> Set<T> get(SharedPreferences prefs, @NonNull String key, @NonNull Set<T> defaultValue, T... types) {
         String val = prefs.getString(key, null);
         if (val == null) {
             return defaultValue;
@@ -22,7 +22,7 @@ public class ListPrefsAdapter {
 
         // http://gfx.hatenablog.com/entry/2015/08/28/132304
         @SuppressWarnings("unchecked")
-        Type type = $Gson$Types.newParameterizedTypeWithOwner(null, List.class, (Class<T>) types.getClass().getComponentType());
+        Type type = $Gson$Types.newParameterizedTypeWithOwner(null, Set.class, (Class<T>) types.getClass().getComponentType());
         return GSON.fromJson(val, type);
     }
 

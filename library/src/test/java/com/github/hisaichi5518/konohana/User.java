@@ -1,4 +1,4 @@
-package com.github.hisaichi5518.konohana.store;
+package com.github.hisaichi5518.konohana;
 
 import com.github.hisaichi5518.konohana.annotation.Key;
 import com.github.hisaichi5518.konohana.annotation.Store;

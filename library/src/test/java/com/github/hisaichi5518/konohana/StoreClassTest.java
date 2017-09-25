@@ -1,4 +1,7 @@
-package com.github.hisaichi5518.konohana.store;
+package com.github.hisaichi5518.konohana;
+
+import com.github.hisaichi5518.konohana.store.Konohana;
+import com.github.hisaichi5518.konohana.store.User_Store;
 
 import org.junit.Before;
 import org.junit.Test;

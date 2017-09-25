@@ -40,7 +40,7 @@ public class KonohanaWriter {
     }
 
     private TypeSpec buildTypeSpec() {
-        return TypeSpec.classBuilder("Konohana")
+        return TypeSpec.classBuilder(konohanaDefinition.getKlass())
                 .addModifiers(Modifier.PUBLIC, Modifier.FINAL)
                 .addField(buildFieldSpec())
                 .addMethod(buildConstructor())

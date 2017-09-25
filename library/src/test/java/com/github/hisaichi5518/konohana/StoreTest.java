@@ -1,7 +1,5 @@
 package com.github.hisaichi5518.konohana;
 
-import com.github.hisaichi5518.konohana.store.Konohana;
-import com.github.hisaichi5518.konohana.store.User_Store;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -17,7 +15,7 @@ import io.reactivex.observers.TestObserver;
 import static org.assertj.core.api.Java6Assertions.assertThat;
 
 @RunWith(RobolectricTestRunner.class)
-public class StoreClassTest {
+public class StoreTest {
     private User_Store store;
 
     @Before

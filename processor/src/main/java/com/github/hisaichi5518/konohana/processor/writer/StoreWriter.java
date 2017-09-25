@@ -7,6 +7,7 @@ import com.github.hisaichi5518.konohana.processor.definition.StoreDefinition;
 import com.github.hisaichi5518.konohana.processor.types.AndroidTypes;
 import com.github.hisaichi5518.konohana.processor.types.AnnotationTypes;
 import com.github.hisaichi5518.konohana.processor.types.JavaTypes;
+import com.github.hisaichi5518.konohana.processor.types.KonohanaTypes;
 import com.github.hisaichi5518.konohana.processor.types.RxJavaTypes;
 import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.JavaFile;
@@ -36,7 +37,8 @@ public class StoreWriter {
                 .addSuperinterface(storeDefinition.getInterfaceName())
                 .addModifiers(Modifier.PUBLIC)
                 .addField(buildPrefsField())
-                .addField(buildKeyChangesField())
+                .addField(buildSubjectField())
+                .addField(buildListenerField())
                 .addMethod(buildConstructor())
                 .addMethods(StoreMethods.build(storeDefinition))
                 .build();
@@ -51,8 +53,16 @@ public class StoreWriter {
     }
 
     @NonNull
-    private FieldSpec buildKeyChangesField() {
-        return FieldSpec.builder(RxJavaTypes.getObservable(JavaTypes.String), "changes")
+    private FieldSpec buildListenerField() {
+        return FieldSpec.builder(KonohanaTypes.OnPreferenceChangeListener, "listener")
+                .addModifiers(Modifier.PRIVATE, Modifier.FINAL)
+                .addAnnotation(AnnotationTypes.NonNull)
+                .build();
+    }
+
+    @NonNull
+    private FieldSpec buildSubjectField() {
+        return FieldSpec.builder(RxJavaTypes.getPublishSubject(JavaTypes.String), "subject")
                 .addModifiers(Modifier.PRIVATE, Modifier.FINAL)
                 .addAnnotation(AnnotationTypes.NonNull)
                 .build();
@@ -64,7 +74,15 @@ public class StoreWriter {
                 .addModifiers(Modifier.PUBLIC)
                 .addParameter(ParameterSpec.builder(AndroidTypes.Context, "context").addAnnotation(AnnotationTypes.NonNull).build())
                 .addStatement("this.prefs = context.getSharedPreferences($S, $L)", storeDefinition.getPrefsFileName(), storeDefinition.getPrefsMode())
-                .addStatement("this.changes = changes()")
+                .addStatement("this.subject = PublishSubject.create()")
+                .addStatement("this.listener = new $T(subject)", KonohanaTypes.OnPreferenceChangeListener)
+                .addStatement("prefs.registerOnSharedPreferenceChangeListener(listener)")
+                .beginControlFlow("subject.doOnDispose(new $T()", RxJavaTypes.Action)
+                .addCode("@$T\n", AnnotationTypes.Override)
+                .beginControlFlow("public void run() throws $T", Exception.class)
+                .addStatement("prefs.unregisterOnSharedPreferenceChangeListener(listener)")
+                .endControlFlow()
+                .endControlFlow(")")
                 .build();
     }
 

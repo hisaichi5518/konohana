@@ -28,4 +28,6 @@ public class KonohanaTypes {
     public static final ClassName StringSetPrefsAdapter = ClassName.get(PREFS_ADAPTER_PACKAGE, "StringSetPrefsAdapter");
 
     public static final ClassName UseBuildInPrefsAdapter = ClassName.get(PACKAGE + ".annotation", "Key", "UseBuildInPrefsAdapter");
+
+    public static final ClassName OnPreferenceChangeListener = ClassName.get(PACKAGE + ".listener", "OnPreferenceChangeListener");
 }

@@ -22,9 +22,19 @@ public class RxJavaTypes {
 
     public static final ClassName Function = ClassName.get(FUNCTIONS_PACKAGE, "Function");
 
+    public static final ClassName Action = ClassName.get(FUNCTIONS_PACKAGE, "Action");
+
+    public static final ClassName PublishSubject = ClassName.get(PACKAGE + ".subjects", "PublishSubject");
+
+
     public static ParameterizedTypeName getObservable(TypeName className) {
         return ParameterizedTypeName.get(Observable, className);
     }
+
+    public static ParameterizedTypeName getPublishSubject(TypeName className) {
+        return ParameterizedTypeName.get(PublishSubject, className);
+    }
+
 
     public static ParameterizedTypeName getPredicate(TypeName className) {
         return ParameterizedTypeName.get(Predicate, className);

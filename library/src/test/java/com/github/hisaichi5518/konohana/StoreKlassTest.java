@@ -22,7 +22,7 @@ public class StoreKlassTest {
     @Test
     public void nonUseKlass() {
         Konohana konohana = new Konohana(RuntimeEnvironment.application);
-        assertThat(konohana.storeOfUser()).isInstanceOf(User_Store.class);
+        assertThat(konohana.storeOfTestUser()).isInstanceOf(TestUser_Store.class);
     }
 
     @Store(klass = "Secret")

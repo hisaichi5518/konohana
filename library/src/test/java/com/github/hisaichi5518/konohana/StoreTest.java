@@ -16,12 +16,12 @@ import static org.assertj.core.api.Java6Assertions.assertThat;
 
 @RunWith(RobolectricTestRunner.class)
 public class StoreTest {
-    private User_Store store;
+    private TestUser_Store store;
 
     @Before
     public void setup() {
         Konohana konohana = new Konohana(RuntimeEnvironment.application);
-        store = konohana.storeOfUser();
+        store = konohana.storeOfTestUser();
     }
 
     @Test
@@ -41,7 +41,7 @@ public class StoreTest {
         assertThat(store.getName()).isEqualTo("");
         assertThat(store.getRate()).isEqualTo(0F);
         assertThat(store.getLongRate()).isEqualTo(0L);
-        assertThat(store.getType()).isEqualTo(User.Type.none);
+        assertThat(store.getType()).isEqualTo(TestUser.Type.none);
         assertThat(store.getProductNames()).isEqualTo(new ArrayList<>());
         assertThat(store.getTypes()).isEqualTo(new ArrayList<>());
         assertThat(store.getProducts()).isEqualTo(new ArrayList<>());
@@ -49,7 +49,7 @@ public class StoreTest {
         assertThat(store.getProductIdSet()).isEqualTo(new HashSet<>());
         assertThat(store.getTypeSet()).isEqualTo(new HashSet<>());
         assertThat(store.getProductSet()).isEqualTo(new HashSet<>());
-        assertThat(store.getProduct()).isInstanceOf(User.Product.class);
+        assertThat(store.getProduct()).isInstanceOf(TestUser.Product.class);
     }
 
     @Test

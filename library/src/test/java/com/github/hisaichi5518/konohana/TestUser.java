@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Set;
 
 @Store
-interface User {
+interface TestUser {
 
     @Key
     int id = 0;

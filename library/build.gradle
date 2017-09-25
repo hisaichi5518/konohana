@@ -35,10 +35,10 @@ dependencies {
     })
     compile "com.android.support:appcompat-v7:${SUPPORT_LIBRARY_VERSION}"
     compile "com.google.code.gson:gson:${GSON_VERSION}"
+    compile "io.reactivex.rxjava2:rxjava:${RXJAVA2_VERSION}"
 
     testAnnotationProcessor project(':processor')
     testCompile "junit:junit:${JUNIT_VERSION}"
     testCompile "org.robolectric:robolectric:3.4.2"
     testCompile 'org.assertj:assertj-core:3.8.0'
-    testCompile 'io.reactivex.rxjava2:rxjava:2.1.4'
 }

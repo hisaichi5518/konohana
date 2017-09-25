@@ -79,7 +79,7 @@ public class StoreWriter {
                 .addStatement("prefs.registerOnSharedPreferenceChangeListener(listener)")
                 .beginControlFlow("subject.doOnDispose(new $T()", RxJavaTypes.Action)
                 .addCode("@$T\n", AnnotationTypes.Override)
-                .beginControlFlow("public void run() throws $T", Exception.class)
+                .beginControlFlow("public void run() throws $T", JavaTypes.Exception)
                 .addStatement("prefs.unregisterOnSharedPreferenceChangeListener(listener)")
                 .endControlFlow()
                 .endControlFlow(")")

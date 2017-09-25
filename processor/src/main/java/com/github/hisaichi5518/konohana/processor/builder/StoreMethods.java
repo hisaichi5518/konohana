@@ -4,7 +4,6 @@ import com.github.hisaichi5518.konohana.processor.definition.KeyDefinition;
 import com.github.hisaichi5518.konohana.processor.definition.StoreDefinition;
 import com.github.hisaichi5518.konohana.processor.types.AndroidTypes;
 import com.github.hisaichi5518.konohana.processor.types.AnnotationTypes;
-import com.github.hisaichi5518.konohana.processor.types.JavaTypes;
 import com.github.hisaichi5518.konohana.processor.types.RxJavaTypes;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.ParameterSpec;
@@ -29,8 +28,6 @@ public class StoreMethods {
             specs.add(buildKeyAsObservableSpec(keyDefinition));
             specs.add(buildKeyAsObservableSpecWithParameter(keyDefinition));
         });
-
-        specs.add(buildChangesSpec());
 
         return specs;
     }
@@ -92,7 +89,7 @@ public class StoreMethods {
         return MethodSpec.methodBuilder(keyDefinition.getAsObservableName())
                 .addModifiers(Modifier.PUBLIC)
                 .returns(RxJavaTypes.getObservable(keyDefinition.getBoxedFieldType()))
-                .beginControlFlow("return changes.filter(new $T<String>()", RxJavaTypes.Predicate)
+                .beginControlFlow("return subject.filter(new $T<String>()", RxJavaTypes.Predicate)
                 .addCode("@$T\n", AnnotationTypes.Override)
                 .beginControlFlow("public boolean test(String v) throws Exception")
                 .addStatement("return $T.equals(v, $S)", AndroidTypes.TextUtils, keyDefinition.getPrefsKeyName())
@@ -113,7 +110,7 @@ public class StoreMethods {
                 .addModifiers(Modifier.PUBLIC)
                 .returns(RxJavaTypes.getObservable(keyDefinition.getBoxedFieldType()))
                 .addParameter(ParameterSpec.builder(keyDefinition.getFieldTypeName(), "defaultValue").addModifiers(Modifier.FINAL).addAnnotation(AnnotationTypes.NonNull).build())
-                .beginControlFlow("return changes.filter(new $T<String>()", RxJavaTypes.Predicate)
+                .beginControlFlow("return subject.filter(new $T<String>()", RxJavaTypes.Predicate)
                 .addCode("@$T\n", AnnotationTypes.Override)
                 .beginControlFlow("public boolean test(String v) throws Exception")
                 .addStatement("return $T.equals(v, $S)", AndroidTypes.TextUtils, keyDefinition.getPrefsKeyName())
@@ -124,32 +121,6 @@ public class StoreMethods {
                 .addCode("@$T\n", AnnotationTypes.Override)
                 .beginControlFlow("public $T apply(String s) throws Exception", keyDefinition.getBoxedFieldType())
                 .addStatement("return $L(defaultValue)", keyDefinition.getGetterName())
-                .endControlFlow()
-                .endControlFlow(")")
-                .build();
-    }
-
-    private static MethodSpec buildChangesSpec() {
-        return MethodSpec.methodBuilder("changes")
-                .addModifiers(Modifier.PRIVATE)
-                .addAnnotation(AnnotationTypes.NonNull)
-                .returns(RxJavaTypes.getObservable(JavaTypes.String))
-                .beginControlFlow("return $T.create(new $T<$T>()", RxJavaTypes.Observable, RxJavaTypes.ObservableOnSubscribe, JavaTypes.String)
-                .addCode("@$T\n", AnnotationTypes.Override)
-                .beginControlFlow("public void subscribe(final $T<$T> emitter) throws $T", RxJavaTypes.ObservableEmitter, JavaTypes.String, Exception.class)
-                .beginControlFlow("final $T listener = new $T()", AndroidTypes.OnSharedPreferenceChangeListener, AndroidTypes.OnSharedPreferenceChangeListener)
-                .addCode("@$T\n", AnnotationTypes.Override)
-                .beginControlFlow("public void onSharedPreferenceChanged($T preferences, $T key)", AndroidTypes.SharedPreferences, JavaTypes.String)
-                .addStatement("emitter.onNext(key)")
-                .endControlFlow()
-                .endControlFlow("")
-                .beginControlFlow("emitter.setCancellable(new $T()", RxJavaTypes.Cancellable)
-                .addCode("@$T\n", AnnotationTypes.Override)
-                .beginControlFlow("public void cancel() throws $T", JavaTypes.Exception)
-                .addStatement("prefs.unregisterOnSharedPreferenceChangeListener(listener)")
-                .endControlFlow()
-                .endControlFlow(")")
-                .addStatement("prefs.registerOnSharedPreferenceChangeListener(listener)")
                 .endControlFlow()
                 .endControlFlow(")")
                 .build();

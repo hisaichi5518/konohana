@@ -47,7 +47,8 @@ public class MainActivity extends AppCompatActivity {
                         "吉高");
                 Collections.shuffle(names);
 
-                userStore.setName(names.get(0));
+                String name = names.get(0);
+                userStore.setName(name);
             }
         });
     }

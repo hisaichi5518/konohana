@@ -111,7 +111,7 @@ public class KeyDefinition implements Contextable {
     public boolean isEnum() {
         TypeElement typeElement = getFieldTypeElement();
 
-        return !typeElement.getSuperclass().getKind().equals(TypeKind.NONE) && ClassName.get(getSupperClassElement(typeElement)).equals(ClassName.get(Enum.class));
+        return !typeElement.getSuperclass().getKind().equals(TypeKind.NONE) && ClassName.get(getSupperClassElement(typeElement)).equals(JavaTypes.Enum);
     }
 
     public boolean isList() {

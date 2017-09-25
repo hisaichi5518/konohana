@@ -1,15 +1,16 @@
-package com.github.hisaichi5518.konohana.test;
+package com.github.hisaichi5518.konohana;
 
 import com.github.hisaichi5518.konohana.annotation.Key;
 import com.github.hisaichi5518.konohana.annotation.Store;
 
-import java.util.List;
-import java.util.Set;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Store
-interface Success {
+interface TestUser {
+
     @Key
     int id = 0;
 
@@ -54,6 +55,5 @@ interface Success {
     }
 
     class Product {
-        String name;
     }
 }

@@ -20,17 +20,4 @@ dependencies {
     compile 'com.google.auto:auto-common:0.8'
 
     testCompile "junit:junit:${JUNIT_VERSION}"
-    testCompile "com.google.guava:guava:22.0"
-    testCompile "com.google.code.gson:gson:${GSON_VERSION}"
-    testCompile "io.reactivex.rxjava2:rxjava:${RXJAVA2_VERSION}"
-    testCompile 'com.google.android:android:4.1.1.4'
-    testCompile 'com.google.testing.compile:compile-testing:0.12'
-}
-
-sourceSets {
-    test {
-        java {
-            srcDirs = ['src/main/java', 'src/test/java', '../library/src/main/java']
-        }
-    }
 }

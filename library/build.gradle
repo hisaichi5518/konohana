@@ -12,6 +12,11 @@ android {
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
+        android.libraryVariants.all {
+            // https://gist.github.com/koral--/f99d64c72741c29431ce4e15c0e5b6d7
+            def aptOutputDir = new File(buildDir, "generated/source/apt/${it.unitTestVariant.dirName}")
+            it.unitTestVariant.addJavaSourceFoldersToModel(aptOutputDir)
+        }
     }
     buildTypes {
         release {
@@ -31,7 +36,9 @@ dependencies {
     compile "com.android.support:appcompat-v7:${SUPPORT_LIBRARY_VERSION}"
     compile "com.google.code.gson:gson:${GSON_VERSION}"
 
+    testAnnotationProcessor project(':processor')
     testCompile "junit:junit:${JUNIT_VERSION}"
     testCompile "org.robolectric:robolectric:3.4.2"
     testCompile 'org.assertj:assertj-core:3.8.0'
+    testCompile 'io.reactivex.rxjava2:rxjava:2.1.4'
 }

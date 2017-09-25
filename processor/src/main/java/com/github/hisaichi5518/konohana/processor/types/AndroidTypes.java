@@ -8,6 +8,4 @@ public class AndroidTypes {
     public static final ClassName Context = ClassName.get("android.content", "Context");
 
     public static final ClassName TextUtils = ClassName.get("android.text", "TextUtils");
-
-    public static final ClassName OnSharedPreferenceChangeListener = ClassName.get("android.content", "SharedPreferences", "OnSharedPreferenceChangeListener");
 }

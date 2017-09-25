@@ -12,12 +12,6 @@ public class RxJavaTypes {
 
     public static final ClassName Observable = ClassName.get(PACKAGE, "Observable");
 
-    public static final ClassName ObservableEmitter = ClassName.get(PACKAGE, "ObservableEmitter");
-
-    public static final ClassName ObservableOnSubscribe = ClassName.get(PACKAGE, "ObservableOnSubscribe");
-
-    public static final ClassName Cancellable = ClassName.get(FUNCTIONS_PACKAGE, "Cancellable");
-
     public static final ClassName Predicate = ClassName.get(FUNCTIONS_PACKAGE, "Predicate");
 
     public static final ClassName Function = ClassName.get(FUNCTIONS_PACKAGE, "Function");
@@ -33,10 +27,5 @@ public class RxJavaTypes {
 
     public static ParameterizedTypeName getPublishSubject(TypeName className) {
         return ParameterizedTypeName.get(PublishSubject, className);
-    }
-
-
-    public static ParameterizedTypeName getPredicate(TypeName className) {
-        return ParameterizedTypeName.get(Predicate, className);
     }
 }

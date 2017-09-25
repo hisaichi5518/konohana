@@ -16,6 +16,12 @@ public class StoreKlassTest {
         assertThat(konohana.storeOfSecret2()).isInstanceOf(Secret2_Store.class);
     }
 
+    @Test
+    public void nonUseKlass() {
+        Konohana konohana = new Konohana(RuntimeEnvironment.application);
+        assertThat(konohana.storeOfUser()).isInstanceOf(User_Store.class);
+    }
+
     @Store(klass = "Secret")
     interface Secret1 {
         @Key

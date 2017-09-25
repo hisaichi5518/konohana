@@ -30,7 +30,12 @@ public class KonohanaProcessor extends AbstractProcessor {
         try {
             StoreDefinition.createStream(context).forEach(StoreWriter::write);
 
-            KonohanaWriter.write(new KonohanaDefinition(context, StoreDefinition.createStream(context).collect(Collectors.toList())));
+
+            StoreDefinition.createStream(context)
+                    .collect(Collectors.groupingBy(StoreDefinition::getKlass))
+                    .forEach((key, values) -> {
+                        KonohanaWriter.write(new KonohanaDefinition(context, values, key));
+                    });
         } catch (ProcessingException e) {
             context.error(e.getMessage(), e.getElement());
         }

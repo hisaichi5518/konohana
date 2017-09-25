@@ -12,10 +12,12 @@ import javax.lang.model.element.Element;
 public class KonohanaDefinition implements Contextable {
     private final ProcessingContext context;
     private final List<StoreDefinition> storeDefinitions;
+    private final String klass;
 
-    public KonohanaDefinition(@NonNull ProcessingContext context, @NonNull List<StoreDefinition> storeDefinitions) {
+    public KonohanaDefinition(@NonNull ProcessingContext context, @NonNull List<StoreDefinition> storeDefinitions, @NonNull String klass) {
         this.context = context;
         this.storeDefinitions = storeDefinitions;
+        this.klass = klass;
     }
 
     public int getStoreCount() {
@@ -41,5 +43,10 @@ public class KonohanaDefinition implements Contextable {
     public String getPackageName() {
         // FIXME: throw Exception if package is null
         return storeDefinitions.get(0).getInterfaceName().packageName();
+    }
+
+    @NonNull
+    public String getKlass() {
+        return klass;
     }
 }

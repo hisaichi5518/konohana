@@ -72,6 +72,11 @@ public class StoreDefinition implements Contextable {
         return store.name();
     }
 
+    @NonNull
+    public String getKlass() {
+        return store.klass();
+    }
+
     public int getPrefsMode() {
         if (store.mode() < 0) {
             throw new ProcessingException("Invalid model!", element);

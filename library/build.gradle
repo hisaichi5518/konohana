@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.novoda.bintray-release'
 
 android {
     compileSdkVersion 26
@@ -41,4 +42,16 @@ dependencies {
     testCompile "junit:junit:${JUNIT_VERSION}"
     testCompile "org.robolectric:robolectric:3.4.2"
     testCompile 'org.assertj:assertj-core:3.8.0'
+}
+
+publish {
+    artifactId = 'konohana'
+    desc = 'SharedPreferences + RxJava2 + SharedPreferences manager = Konohana'
+
+    def metadata = rootProject.ext.metadata
+    groupId = metadata.groupId
+    publishVersion = metadata.version
+    website = metadata.website
+    repository = metadata.repository
+    licences = metadata.licences
 }

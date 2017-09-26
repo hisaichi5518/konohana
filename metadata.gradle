@@ -1,0 +1,8 @@
+ext {
+    metadata = [
+            groupId   : 'com.github.hisaichi5518.konohana',
+            website   : 'https://github.com/hisaichi5518/konohana',
+            repository: 'git@github.com:hisaichi5518/konohana.git',
+            licences  : ['Apache-2.0']
+    ]
+}

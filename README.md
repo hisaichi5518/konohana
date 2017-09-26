@@ -68,4 +68,10 @@ compile "com.github.hisaichi5518.konohana:konohana-processor:0.1.1"
 
 # Migration
 
-TODO
+```
+@Store(name = "your-xml-name", klass = "YourKonohana")
+interface User {
+    @Key(name = "your-key-name")
+    String yourKey;
+}
+```

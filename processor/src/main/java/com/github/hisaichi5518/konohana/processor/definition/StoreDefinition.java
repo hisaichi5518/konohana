@@ -27,7 +27,12 @@ public class StoreDefinition implements Contextable {
     public static Stream<StoreDefinition> createStream(@NonNull ProcessingContext context) {
         return context.roundEnvironment.getElementsAnnotatedWith(Store.class)
                 .stream()
-                .filter(element -> element.getKind() == ElementKind.INTERFACE)
+                .filter(element -> {
+                    if (element.getKind() == ElementKind.INTERFACE) {
+                        return true;
+                    }
+                    throw new ProcessingException("this element is not interface.", element);
+                })
                 .map(element -> new StoreDefinition(context, (TypeElement) element));
     }
 

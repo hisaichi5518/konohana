@@ -1,4 +1,5 @@
 apply plugin: 'java'
+apply plugin: 'com.novoda.bintray-release'
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
@@ -6,3 +7,15 @@ dependencies {
 
 sourceCompatibility = "1.7"
 targetCompatibility = "1.7"
+
+publish {
+    artifactId = 'konohana-annotation'
+    desc = 'Annotations for Konohana'
+
+    def metadata = rootProject.ext.metadata
+    groupId = metadata.groupId
+    publishVersion = metadata.version
+    website = metadata.website
+    repository = metadata.repository
+    licences = metadata.licences
+}

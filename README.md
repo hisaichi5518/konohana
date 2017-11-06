@@ -63,8 +63,8 @@ konohana.storeOfUser().nameAsObservable().subscribe(name -> {
 # Installation
 
 ```
-compile "com.github.hisaichi5518.konohana:konohana:0.2.1"
-annotationProcessor "com.github.hisaichi5518.konohana:konohana-processor:0.2.1"
+compile "com.github.hisaichi5518.konohana:konohana:0.2.2"
+annotationProcessor "com.github.hisaichi5518.konohana:konohana-processor:0.2.2"
 ```
 
 # Migration

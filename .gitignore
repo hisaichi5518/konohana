@@ -1,5 +1,5 @@
 
-# Created by https://www.gitignore.io/api/vim,android,androidstudio
+# Created by https://www.gitignore.io/api/vim,android,androidstudio,macOS
 
 ### Android ###
 # Built application files
@@ -100,7 +100,9 @@ obj/
 /out/
 
 # User-specific configurations
+.idea/caches/
 .idea/libraries/
+.idea/shelf/
 .idea/.name
 .idea/compiler.xml
 .idea/copyright/profiles_settings.xml
@@ -128,6 +130,8 @@ Thumbs.db
 # Legacy Eclipse project files
 .classpath
 .project
+.cproject
+.settings/
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
@@ -160,12 +164,34 @@ fabric.properties
 
 !/gradle/wrapper/gradle-wrapper.jar
 
+### macOS ###
+*.DS_Store
+.AppleDouble
+.LSOverride
+
+# Icon must end with two \r
+Icon
+
+# Thumbnails
+
+# Files that might appear in the root of a volume
+.DocumentRevisions-V100
+.fseventsd
+.TemporaryItems
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# Directories potentially created on remote AFP share
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
 ### Vim ###
 # swap
-[._]*.s[a-v][a-z]
-[._]*.sw[a-p]
-[._]s[a-v][a-z]
-[._]sw[a-p]
+.sw[a-p]
+.*.sw[a-p]
 # session
 Session.vim
 # temporary
@@ -173,4 +199,5 @@ Session.vim
 # auto-generated tag files
 tags
 
-# End of https://www.gitignore.io/api/vim,android,androidstudio
+
+# End of https://www.gitignore.io/api/vim,android,androidstudio,macOS

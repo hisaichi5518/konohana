@@ -2,12 +2,12 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.novoda.bintray-release'
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion '26.0.2'
+    compileSdkVersion 27
+    buildToolsVersion "26.0.2"
 
     defaultConfig {
         minSdkVersion 15
-        targetSdkVersion 26
+        targetSdkVersion 27
         versionCode 1
         versionName "1.0"
 
@@ -40,7 +40,7 @@ dependencies {
 
     testAnnotationProcessor project(':processor')
     testCompile "junit:junit:${JUNIT_VERSION}"
-    testCompile "org.robolectric:robolectric:3.4.2"
+    testCompile "org.robolectric:robolectric:3.8"
     testCompile 'org.assertj:assertj-core:3.8.0'
 }
 

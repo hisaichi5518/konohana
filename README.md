@@ -63,8 +63,8 @@ konohana.storeOfUser().nameAsObservable().subscribe(name -> {
 # Installation
 
 ```
-compile "com.github.hisaichi5518.konohana:konohana:0.1.1"
-compile "com.github.hisaichi5518.konohana:konohana-processor:0.1.1"
+compile "com.github.hisaichi5518.konohana:konohana:0.2.2"
+annotationProcessor "com.github.hisaichi5518.konohana:konohana-processor:0.2.2"
 ```
 
 # Migration
@@ -75,4 +75,12 @@ interface User {
     @Key(name = "your-key-name")
     String yourKey;
 }
+```
+
+# Release
+
+```
+./gradlew bumpPatch
+git checkout -b release/v`cat VERSION`
+./gradlew clean build bintrayUpload -PbintrayUser=hisaichi5518 -PbintrayKey=... -PdryRun=false
 ```

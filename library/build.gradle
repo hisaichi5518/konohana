@@ -40,7 +40,7 @@ dependencies {
 
     testAnnotationProcessor project(':processor')
     testCompile "junit:junit:${JUNIT_VERSION}"
-    testCompile "org.robolectric:robolectric:3.4.2"
+    testCompile "org.robolectric:robolectric:3.8"
     testCompile 'org.assertj:assertj-core:3.8.0'
 }
 

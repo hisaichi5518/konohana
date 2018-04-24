@@ -3,6 +3,7 @@ apply from: project.file('metadata.gradle')
 apply from: "https://raw.githubusercontent.com/maskarade/Android-Orma/master/versioning.gradle"
 
 buildscript {
+    ext.kotlin_version = '1.2.40'
     repositories {
         jcenter()
         google()
@@ -10,6 +11,7 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:3.1.2'
         classpath 'com.novoda:bintray-release:0.8.0'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
 

@@ -22,11 +22,20 @@ public class StringPrefsAdapterTest {
     }
 
     @Test
-    public void get_WithDefault() throws Exception {
+    public void get_WithDefault() {
         assertThat(StringPrefsAdapter.get(prefs, "key", "")).isEqualTo("");
 
         StringPrefsAdapter.set(prefs, "key", "value");
 
         assertThat(StringPrefsAdapter.get(prefs, "key", "")).isEqualTo("value");
+    }
+
+    @Test
+    public void get_WithNull() {
+        assertThat(StringPrefsAdapter.get(prefs, "key", null)).isEqualTo(null);
+
+        StringPrefsAdapter.set(prefs, "key", null);
+
+        assertThat(StringPrefsAdapter.get(prefs, "key", null)).isEqualTo(null);
     }
 }

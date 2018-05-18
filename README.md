@@ -9,6 +9,8 @@ First, Define store interface annotated with `@Store` and `@Key`.
 ```java
 package com.github.hisaichi5518.konohana.example.store;
 
+import android.support.annotation.Nullable;
+
 import com.github.hisaichi5518.konohana.annotation.Key;
 import com.github.hisaichi5518.konohana.annotation.Store;
 
@@ -16,6 +18,10 @@ import com.github.hisaichi5518.konohana.annotation.Store;
 interface User {
     @Key
     String name = "default name";
+
+    @Key
+    @Nullable
+    String bio = null;
 }
 ```
 
@@ -53,11 +59,10 @@ konohana.storeOfUser().nameAsObservable().subscribe(name -> {
 - `float`
 - `int`
 - `long`
-- `String`
-- `Set<String>`
 - `Enum`
-- `List<*>`
+- `Set<String>`
 - `Set<*>`
+- `List<*>`
 - `POJO`
 
 # Installation

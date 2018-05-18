@@ -22,12 +22,21 @@ public class EnumPrefsAdapterTest {
     }
 
     @Test
-    public void get_WithDefault() throws Exception {
+    public void get_WithDefault() {
         assertThat(EnumPrefsAdapter.get(prefs, "key", Type.none)).isEqualTo(Type.none);
 
         EnumPrefsAdapter.set(prefs, "key", Type.buyer);
 
         assertThat(EnumPrefsAdapter.get(prefs, "key", Type.none)).isEqualTo(Type.buyer);
+    }
+
+    @Test
+    public void get_WithNull() {
+        assertThat(EnumPrefsAdapter.get(prefs, "key", null)).isEqualTo(null);
+
+        EnumPrefsAdapter.set(prefs, "key", null);
+
+        assertThat(EnumPrefsAdapter.get(prefs, "key", null)).isEqualTo(null);
     }
 
     private enum Type {

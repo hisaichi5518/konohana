@@ -6,11 +6,14 @@ import com.github.hisaichi5518.konohana.annotation.Key;
 import com.github.hisaichi5518.konohana.processor.context.ProcessingContext;
 import com.github.hisaichi5518.konohana.processor.exception.ProcessingException;
 import com.github.hisaichi5518.konohana.processor.model.PrefsAdapter;
+import com.github.hisaichi5518.konohana.processor.types.AnnotationTypes;
 import com.github.hisaichi5518.konohana.processor.types.JavaTypes;
 import com.github.hisaichi5518.konohana.processor.utils.Annotations;
 import com.github.hisaichi5518.konohana.processor.utils.Strings;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.TypeName;
+
+import java.util.stream.Collectors;
 
 import javax.lang.model.element.Element;
 import javax.lang.model.element.TypeElement;
@@ -38,13 +41,6 @@ public class KeyDefinition implements Contextable {
         key = element.getAnnotation(Key.class);
 
         prefsAdapter = PrefsAdapter.find(this);
-        if (prefsAdapter == null) {
-            // ex) Can not find available PrefsAdapter for admin field(type: Boolean) of User class
-            throw new ProcessingException(
-                    "Can not find available PrefsAdapter for "
-                            + element.getSimpleName() + " field(type: " + getFieldTypeName().toString() + ")"
-                            + " of " + element.getEnclosingElement().getSimpleName() + " class.", element);
-        }
     }
 
     @NonNull
@@ -128,11 +124,21 @@ public class KeyDefinition implements Contextable {
         return prefsAdapter;
     }
 
+    public ClassName getAnnotation() {
+        return isNullable() ? AnnotationTypes.Nullable : AnnotationTypes.NonNull;
+    }
+
     private TypeElement getFieldTypeElement() {
         return (TypeElement) context.getTypes().asElement(element.asType());
     }
 
     private TypeElement getSupperClassElement(TypeElement typeElement) {
         return (TypeElement) context.getTypes().asElement(typeElement.getSuperclass());
+    }
+
+    private boolean isNullable() {
+        return element.getAnnotationMirrors().stream().filter(c -> {
+            return c.getAnnotationType().asElement().getSimpleName().toString().equals("Nullable");
+        }).collect(Collectors.toList()).size() > 0;
     }
 }

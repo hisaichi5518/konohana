@@ -25,7 +25,7 @@ public class StringSetPrefsAdapterTest {
     }
 
     @Test
-    public void get_WithDefault() throws Exception {
+    public void get_WithDefault() {
         assertThat(StringSetPrefsAdapter.get(prefs, "key", Collections.<String>emptySet()))
                 .isEqualTo(Collections.<String>emptySet());
 
@@ -36,5 +36,15 @@ public class StringSetPrefsAdapterTest {
 
         assertThat(StringSetPrefsAdapter.get(prefs, "key", Collections.<String>emptySet()))
                 .isEqualTo(strings);
+    }
+
+    @Test
+    public void get_WithNull() {
+        assertThat(StringSetPrefsAdapter.get(prefs, "key", null)).isEqualTo(null);
+
+        StringSetPrefsAdapter.set(prefs, "key", null);
+
+        assertThat(StringSetPrefsAdapter.get(prefs, "key", null))
+                .isEqualTo(null);
     }
 }

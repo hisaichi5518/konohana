@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 public class EnumPrefsAdapter {
 
     @SafeVarargs
+    @Nullable
     public static <T extends Enum<T>> T get(SharedPreferences prefs, @NonNull String key, @Nullable T defaultValue, T... types) {
         String val = prefs.getString(key, null);
         if (val == null) {

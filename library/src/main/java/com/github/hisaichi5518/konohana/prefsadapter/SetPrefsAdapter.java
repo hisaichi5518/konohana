@@ -14,6 +14,7 @@ public class SetPrefsAdapter {
     private static final Gson GSON = new Gson();
 
     @SafeVarargs
+    @Nullable
     // http://d.hatena.ne.jp/skirnir/20090224/1235483079
     public static <T> Set<T> get(SharedPreferences prefs, @NonNull String key, @Nullable Set<T> defaultValue, T... types) {
         String val = prefs.getString(key, null);

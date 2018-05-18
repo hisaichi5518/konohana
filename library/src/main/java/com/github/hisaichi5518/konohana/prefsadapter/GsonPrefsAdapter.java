@@ -10,6 +10,7 @@ public class GsonPrefsAdapter {
     private static final Gson GSON = new Gson();
 
     @SafeVarargs
+    @Nullable
     public static <T> T get(SharedPreferences prefs, @NonNull String key, @Nullable T defaultValue, T... types) {
         String val = prefs.getString(key, null);
         if (val == null) {

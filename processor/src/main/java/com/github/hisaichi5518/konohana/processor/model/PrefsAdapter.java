@@ -1,5 +1,6 @@
 package com.github.hisaichi5518.konohana.processor.model;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.github.hisaichi5518.konohana.processor.definition.KeyDefinition;
@@ -29,7 +30,7 @@ public class PrefsAdapter {
         return new PrefsAdapter(target, adapter);
     }
 
-    @Nullable
+    @NonNull
     public static TypeName find(KeyDefinition keyDefinition) {
         TypeName customPrefsAdapterType = keyDefinition.getCustomPrefsAdapterType();
         if (customPrefsAdapterType.equals(KonohanaTypes.UseBuildInPrefsAdapter)) {

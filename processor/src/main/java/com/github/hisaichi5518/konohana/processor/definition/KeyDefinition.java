@@ -41,13 +41,6 @@ public class KeyDefinition implements Contextable {
         key = element.getAnnotation(Key.class);
 
         prefsAdapter = PrefsAdapter.find(this);
-        if (prefsAdapter == null) {
-            // ex) Can not find available PrefsAdapter for admin field(type: Boolean) of User class
-            throw new ProcessingException(
-                    "Can not find available PrefsAdapter for "
-                            + element.getSimpleName() + " field(type: " + getFieldTypeName().toString() + ")"
-                            + " of " + element.getEnclosingElement().getSimpleName() + " class.", element);
-        }
     }
 
     @NonNull

@@ -22,7 +22,7 @@ public class GsonPrefsAdapterTest {
     }
 
     @Test
-    public void get_WithDefault() throws Exception {
+    public void get_WithDefault() {
         assertThat(GsonPrefsAdapter.get(prefs, "key", new User()).name).isEqualTo(null);
 
         User user = new User();
@@ -30,6 +30,15 @@ public class GsonPrefsAdapterTest {
         GsonPrefsAdapter.set(prefs, "key", user);
 
         assertThat(GsonPrefsAdapter.get(prefs, "key", new User()).name).isEqualTo("yuriko");
+    }
+
+    @Test
+    public void get_WithNull() {
+        assertThat(GsonPrefsAdapter.get(prefs, "key", null)).isEqualTo(null);
+
+        GsonPrefsAdapter.set(prefs, "key", null);
+
+        assertThat(GsonPrefsAdapter.get(prefs, "key", null)).isEqualTo(null);
     }
 
     private static class User {

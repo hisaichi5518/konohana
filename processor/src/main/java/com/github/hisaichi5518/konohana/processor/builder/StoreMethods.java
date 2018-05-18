@@ -43,7 +43,7 @@ public class StoreMethods {
         return MethodSpec.methodBuilder(keyDefinition.getGetterName())
                 .returns(keyDefinition.getFieldTypeName())
                 .addModifiers(Modifier.PUBLIC)
-                .addAnnotation(AnnotationTypes.NonNull)
+                .addAnnotation(keyDefinition.getAnnotation())
                 .addStatement("return $T.get(prefs, $S, $T.$L)",
                         keyDefinition.getPrefsAdapter(), keyDefinition.getPrefsKeyName(), storeDefinition.getInterfaceName(), keyDefinition.getFieldName())
                 .build();
@@ -53,8 +53,8 @@ public class StoreMethods {
         return MethodSpec.methodBuilder(keyDefinition.getGetterName())
                 .returns(keyDefinition.getFieldTypeName())
                 .addModifiers(Modifier.PUBLIC)
-                .addAnnotation(AnnotationTypes.NonNull)
-                .addParameter(ParameterSpec.builder(keyDefinition.getFieldTypeName(), "defaultValue").addAnnotation(AnnotationTypes.NonNull).build())
+                .addAnnotation(keyDefinition.getAnnotation())
+                .addParameter(ParameterSpec.builder(keyDefinition.getFieldTypeName(), "defaultValue").addAnnotation(keyDefinition.getAnnotation()).build())
                 .addStatement("return $T.get(prefs, $S, defaultValue)",
                         keyDefinition.getPrefsAdapter(), keyDefinition.getPrefsKeyName())
                 .build();
@@ -63,7 +63,7 @@ public class StoreMethods {
     private static MethodSpec buildSetterSpec(KeyDefinition keyDefinition) {
         return MethodSpec.methodBuilder(keyDefinition.getSetterName())
                 .addModifiers(Modifier.PUBLIC)
-                .addParameter(ParameterSpec.builder(keyDefinition.getFieldTypeName(), "value").addAnnotation(AnnotationTypes.NonNull).build())
+                .addParameter(ParameterSpec.builder(keyDefinition.getFieldTypeName(), "value").addAnnotation(keyDefinition.getAnnotation()).build())
                 .addStatement("$T.set(prefs, $S, value)",
                         keyDefinition.getPrefsAdapter(), keyDefinition.getPrefsKeyName())
                 .build();

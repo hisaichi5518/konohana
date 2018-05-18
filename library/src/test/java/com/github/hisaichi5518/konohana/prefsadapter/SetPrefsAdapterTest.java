@@ -25,7 +25,7 @@ public class SetPrefsAdapterTest {
     }
 
     @Test
-    public void get() throws Exception {
+    public void get() {
         assertThat(SetPrefsAdapter.get(prefs, "key", new HashSet<>()).size()).isEqualTo(0);
 
         User user = new User();
@@ -37,6 +37,16 @@ public class SetPrefsAdapterTest {
 
         Set<User> result = SetPrefsAdapter.get(prefs, "key", Collections.<User>emptySet());
         assertThat(result.iterator().next().name).isEqualTo("yuriko");
+    }
+
+    @Test
+    public void get_WithNull() {
+        assertThat(SetPrefsAdapter.get(prefs, "key", null)).isEqualTo(null);
+
+        SetPrefsAdapter.set(prefs, "key", null);
+
+        Set<User> result = SetPrefsAdapter.get(prefs, "key", null);
+        assertThat(result).isEqualTo(null);
     }
 
     private static class User {

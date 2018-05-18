@@ -53,11 +53,10 @@ konohana.storeOfUser().nameAsObservable().subscribe(name -> {
 - `float`
 - `int`
 - `long`
-- `String`
-- `Set<String>`
 - `Enum`
-- `List<*>`
+- `Set<String>`
 - `Set<*>`
+- `List<*>`
 - `POJO`
 
 # Installation

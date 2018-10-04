@@ -28,20 +28,20 @@ android {
 }
 
 dependencies {
-    compile project(':annotation')
+    implementation project(':annotation')
 
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile "com.android.support:appcompat-v7:${SUPPORT_LIBRARY_VERSION}"
-    compile "com.google.code.gson:gson:${GSON_VERSION}"
-    compile "io.reactivex.rxjava2:rxjava:${RXJAVA2_VERSION}"
+    implementation "com.android.support:appcompat-v7:${SUPPORT_LIBRARY_VERSION}"
+    implementation "com.google.code.gson:gson:${GSON_VERSION}"
+    implementation "io.reactivex.rxjava2:rxjava:${RXJAVA2_VERSION}"
 
     testAnnotationProcessor project(':processor')
-    testCompile "junit:junit:${JUNIT_VERSION}"
-    testCompile "org.robolectric:robolectric:3.8"
-    testCompile 'org.assertj:assertj-core:3.8.0'
+    testImplementation "junit:junit:${JUNIT_VERSION}"
+    testImplementation "org.robolectric:robolectric:3.8"
+    testImplementation 'org.assertj:assertj-core:3.8.0'
 }
 
 publish {

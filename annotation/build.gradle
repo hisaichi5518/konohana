@@ -18,4 +18,5 @@ publish {
     website = metadata.website
     repository = metadata.repository
     licences = metadata.licences
+    userOrg = metadata.userOrg
 }
